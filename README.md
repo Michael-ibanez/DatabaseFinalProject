@@ -15,3 +15,13 @@ CSI 3335 Fall 19 Group Project – Gene Expression data management. We are devel
 * Query and analysis
   * Simple query based on sequence name, condition and measuremento.
   * Aggregating measurement value for various sequences
+
+## Getting started
+
+To get the frontend/backend running locally:
+
+- Install git : `https://git-scm.com/download`
+- Clone this repo : `git clone https://github.com/Michael-ibanez/DatabaseFinalProject.git`
+- Move into geneExpressionProject directory : `cd geneExpressionProject`
+- Start the local server: `python3 manage.py runserver`
+- Open up [this](http://127.0.0.1:8000/)
