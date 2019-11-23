@@ -21,10 +21,11 @@ CSI 3335 Fall 19 Group Project – Gene Expression data management. We are devel
 
 ## Getting started
 
-To get the frontend/backend running locally:
+To get the frontend/backend running locally assuming you already have mysqlclient installed:
 
 - Install git : `https://git-scm.com/download`
 - Clone this repo : `git clone https://github.com/Michael-ibanez/DatabaseFinalProject.git`
 - Move into geneExpressionProject directory : `cd geneExpressionProject`
+- Migrate the database: `python3 manage.py migrate`
 - Start the local server: `python3 manage.py runserver`
 - Open up [this](http://127.0.0.1:8000/)
