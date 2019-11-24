@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('insertCSV', views.dataInput, name='dataInput'),
+    path('insertData', views.insertData, name='insertData'),
     path('queries', views.queries, name='queries'),
+    path('extraCred', views.extraCred, name='extraCred'),
 ]
