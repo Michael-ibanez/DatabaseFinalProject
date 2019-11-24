@@ -1,0 +1,25 @@
+{% load static %}
+
+<link
+  rel="stylesheet"
+  href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+/>
+<link
+  rel="stylesheet"
+  href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"
+/>
+<link rel="stylesheet" href="{% static 'GUI/index.css' %}" />
+
+<body>
+  <div>
+    <h3>
+      Hello, world. You're at the main index. Here we will have buttons that go
+      to different functions (include buttons)
+    </h3>
+  </div>
+  <div class="row">
+    <div class="col-lg-4 text-center"><a href="/insertCSV">Button 1</a></div>
+    <div class="col-lg-4 text-center"><a href="/page2">Button 2</a></div>
+    <div class="col-lg-4 text-center"><a href="/page2">Button 3</a></div>
+  </div>
+</body>
