@@ -7,7 +7,10 @@ def index(request):
     return render(request, 'GUI/index.html', context)
 # Data input page of our project
 def insertData(request):
-    return render(request, 'GUI/insertData.html')
+    if request.method == 'POST':
+        return insertCSV(request)
+    else:
+        return render(request, 'GUI/insertData.html')
 # Form for input
 def dataInputCondition(request):
     return HttpResponse("Form to insert condition")
@@ -21,8 +24,49 @@ def dataInputSequence(request):
 def dataInputExperiment(request, data):
     return HttpResponse("Thanks for submitting {{ data }}")
 # Form for input
-def insertCSV(request, fileName):
-    return HttpResponse("Form to insert file and read in all of the data from : %s." % fileName )
+def insertCSV(request):
+    csv_file = request.FILES['csv_file']
+
+    if csv_file.multiple_chunks():
+        print("File is too big")
+
+    # Read in each line of the csv file
+    file_data = csv_file.read().decode("utf-8")
+    lines = file_data.split("\n")
+    # Loop over the lines and save them in db. If error , store as string and then display
+    # First line contains the experiments so read those in first as experiments
+    lineOne = lines[0]
+    fields = lineOne.split(",")
+    experiments = {}
+    count = 0;
+    for exp in fields:
+        experiments[count] = exp
+        count+= 1
+    print(experiments)
+    for line in lines[1:-1]:
+        fields = line.split(",")
+        data_dict = {}
+        data_dict['measurement'] = fields[0]
+        count = 0;
+        for exp in fields[1:]:
+            data_dict[count] = exp
+            count += 1
+        print(data_dict)
+
+        ###### What we use to insert
+        """
+        try:
+            form = EventsForm(data_dict)
+            if form.is_valid():
+                form.save()
+            else:
+                logging.getLogger("error_logger").error(form.errors.as_json())
+        except Exception as e:
+                logging.getLogger("error_logger").error(repr(e))
+                pass
+        """
+    return HttpResponse("We will read in all of the data from .")
+
 # Query page of our project
 def queries(request):
     return render(request, 'GUI/queries.html')
