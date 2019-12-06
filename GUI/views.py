@@ -18,11 +18,11 @@ def dataInputMeasurement(request):
 def dataInputSequence(request):
     return HttpResponse("Form to insert sequence")
 # Form for input
-def dataInputExperiment(request):
-    return HttpResponse("Form to insert experiment with conditions and results")
+def dataInputExperiment(request, data):
+    return HttpResponse("Thanks for submitting {{ data }}")
 # Form for input
-def insertCSV(request):
-    return HttpResponse("Form to insert file and read in all of the data from it")
+def insertCSV(request, fileName):
+    return HttpResponse("Form to insert file and read in all of the data from : %s." % fileName )
 # Query page of our project
 def queries(request):
     return render(request, 'GUI/queries.html')

@@ -19,7 +19,20 @@
     </h3>
   </div>
   <div class="row">
-    <div class="col-lg-4 text-center">Insert file</div>
+    <div class="col-lg-4 text-center">
+      Insert file
+      <form action="{% url 'GUI:insertCSV' name_field %}" method="post">
+        {% csrf_token %}
+        <label for="team_name">Enter name: </label>
+        <input
+          id="team_name"
+          type="text"
+          name="name_field"
+          value="Default name for team."
+        />
+        <input type="submit" value="fileUpload" />
+      </form>
+    </div>
     <div class="col-lg-4 text-center">Insert condition</div>
     <div class="col-lg-4 text-center">Insert measurement</div>
     <div class="col-lg-6 text-center">Insert sequence and information</div>
