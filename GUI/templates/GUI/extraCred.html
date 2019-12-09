@@ -19,12 +19,11 @@
         rel="stylesheet"
         href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"
 />
-<link rel="stylesheet" href="{% static 'GUI/extraCred.css' %}"/>
-
-<body>
+<link rel="stylesheet" href="{% static 'GUI/general.css' %}"/>
 
 <body>
 <div id="app">
+
     <b-navbar toggleable="md" type="dark" variant="info">
 
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
@@ -70,6 +69,25 @@
 
         </b-collapse>
     </b-navbar>
+
+
+    <div>
+        <h1 style="text-align: center;margin-top:10px;">
+            Experiment Comparisons
+        </h1>
+    </div>
+    <p style="text-align: center;margin-left: 50px;margin-top:10px;margin-right: 50px;font-size:30px;">
+        Here you can query sequences and conditions or lists of measurements.
+    </p>
+    <div class="row">
+        <div class="col-lg-6 text-center">Query sequence and conditions</div>
+        <div class="col-lg-6 text-center">Query list of measurements</div>
+    </div>
+    <div class="col-lg-4 text-center" style="margin: 0 auto; padding-top: 30px;">
+        <b-button variant="info" href="/" style="width: 250px;">Home<br>
+            <img src="{% static 'GUI/home.png' %}" alt="Home" style="max-height: 100px">
+        </b-button>
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
 <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
@@ -77,18 +95,4 @@
 <script>
     new Vue({el: '#app'});
 </script>
-
-
-<div>
-    <h1 style="text-align: center;margin-top:10px;">
-        Experiment Comparisons
-    </h1>
-</div>
-<p style="text-align: center;margin-left: 50px;margin-top:10px;margin-right: 50px;font-size:30px;">
-    Here you can query sequences and conditions or lists of measurements.
-</p>
-<div class="row">
-    <div class="col-lg-6 text-center">Query sequence and conditions</div>
-    <div class="col-lg-6 text-center">Query list of measurements</div>
-</div>
 </body>

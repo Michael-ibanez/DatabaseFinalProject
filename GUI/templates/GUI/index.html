@@ -18,7 +18,7 @@
         rel="stylesheet"
         href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"
 />
-<link rel="stylesheet" href="{% static 'GUI/index.css' %}"/>
+<link rel="stylesheet" href="{% static 'GUI/general.css' %}"/>
 
 <body>
 <div id="app">
@@ -88,17 +88,17 @@
     </div>
     <div class="row">
         <div class="col-lg-4 text-center">
-            <b-button variant="success" href="/insertData" style="width: 250px;">Insert Data<br>
+            <b-button variant="info" href="/insertData" style="width: 250px;">Insert Data<br>
                 <img src="{% static 'GUI/databaselogo.png' %}" alt="Insert Data" style="max-height: 100px">
             </b-button>
         </div>
         <div class="col-lg-4 text-center">
-            <b-button variant="success" href="/queries" style="width: 250px;">Queries<br>
+            <b-button variant="info" href="/queries" style="width: 250px;">Queries<br>
                 <img src="{% static 'GUI/querylogo.jpg' %}" alt="Queries" style="max-height: 100px">
             </b-button>
         </div>
         <div class="col-lg-4 text-center">
-            <b-button variant="success" href="/extraCred" style="width: 250px;">Experiment Comparisons<br>
+            <b-button variant="info" href="/extraCred" style="width: 250px;">Experiment Comparisons<br>
                 <img src="{% static 'GUI/comparelogo.png' %}" alt="Experiment Comparisons"
                      style="max-height: 100px">
             </b-button>

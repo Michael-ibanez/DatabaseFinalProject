@@ -19,9 +19,7 @@
         rel="stylesheet"
         href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"
 />
-<link rel="stylesheet" href="{% static 'GUI/insertData.css' %}"/>
-
-<body>
+<link rel="stylesheet" href="{% static 'GUI/general.css' %}"/>
 
 <body>
 <div id="app">
@@ -70,68 +68,73 @@
 
         </b-collapse>
     </b-navbar>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
-<script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
-<script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
-<script>
-    new Vue({el: '#app'});
-</script>
 
 
-<div>
-    <h1 style="text-align: center;margin-top:10px;">
-        Input Data
-    </h1>
-</div>
-<p style="text-align: center;margin-left: 50px;margin-top:10px;margin-right: 50px;font-size:30px;">
-    Here you can insert data to fill the database.
-</p>
-<div class="row">
-    <div class="col-lg-4 text-center">
-        Insert file
-        <form
-                action="{% url 'GUI:insertCSV' %}"
-                method="post"
-                enctype="multipart/form-data"
-                class="form-horizontal"
-        >
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="name" class="col-md-3 col-sm-3 col-xs-12 control-label"
-                >File:
-                </label>
-                <div class="col-md-8">
-                    <input
-                            type="file"
-                            name="csv_file"
-                            id="csv_file"
-                            required="True"
-                            class="form-control"
-                    />
+    <div>
+        <h1 style="text-align: center;margin-top:10px;">
+            Input Data
+        </h1>
+    </div>
+    <p style="text-align: center;margin-left: 50px;margin-top:10px;margin-right: 50px;font-size:30px;">
+        Here you can insert data to fill the database.
+    </p>
+    <div class="row">
+        <div class="col-lg-4 text-center">
+            Insert file
+            <form
+                    action="{% url 'GUI:insertCSV' %}"
+                    method="post"
+                    enctype="multipart/form-data"
+                    class="form-horizontal"
+            >
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name" class="col-md-3 col-sm-3 col-xs-12 control-label"
+                    >File:
+                    </label>
+                    <div class="col-md-8">
+                        <input
+                                type="file"
+                                name="csv_file"
+                                id="csv_file"
+                                required="True"
+                                class="form-control"
+                        />
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div
-                        class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3"
-                        style="margin-bottom:10px;"
-                >
-                    <button class="btn btn-primary">
+                <div class="form-group">
+                    <div
+                            class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3"
+                            style="margin-bottom:10px;"
+                    >
+                        <button class="btn btn-primary">
               <span
                       class="glyphicon glyphicon-upload"
                       style="margin-right:5px;"
               ></span
               >Upload
-                    </button>
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
+        <div class="col-lg-4 text-center">Insert condition</div>
+        <div class="col-lg-4 text-center">Insert measurement</div>
+        <div class="col-lg-6 text-center">Insert sequence and information</div>
+        <div class="col-lg-6 text-center">
+            Insert experiment with condition and results
+        </div>
+        <div class="col-lg-4 text-center" style="margin: 0 auto; padding-top: 30px;">
+            <b-button variant="info" href="/" style="width: 250px;">Home<br>
+                <img src="{% static 'GUI/home.png' %}" alt="Home" style="max-height: 100px">
+            </b-button>
+        </div>
     </div>
-    <div class="col-lg-4 text-center">Insert condition</div>
-    <div class="col-lg-4 text-center">Insert measurement</div>
-    <div class="col-lg-6 text-center">Insert sequence and information</div>
-    <div class="col-lg-6 text-center">
-        Insert experiment with condition and results
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+    <script>
+        new Vue({el: '#app'});
+    </script>
 </div>
 </body>
