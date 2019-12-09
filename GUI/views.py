@@ -65,7 +65,7 @@ def insertCSV(request):
                 logging.getLogger("error_logger").error(repr(e))
                 pass
         """
-    return HttpResponse("We will read in all of the data from .")
+    return render(request, 'GUI/insertedComplete.html')
 
 # Query page of our project
 def queries(request):
