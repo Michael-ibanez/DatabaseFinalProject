@@ -26,8 +26,9 @@
 
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-        <b-navbar-brand href="/"><img src="{% static 'GUI/bu.png' %}" alt="Baylor Biology" style="max-height: 40px">Baylor
-            Biology
+        <b-navbar-brand href="/" style="font-size: 25px">
+            <img src="{% static 'GUI/bu.png' %}" alt="Baylor Biology" style="max-height: 40px">
+            Baylor Biology
         </b-navbar-brand>
 
         <b-collapse is-nav id="nav_collapse">
@@ -36,71 +37,70 @@
                 <b-nav-item href="/insertData">Insert Data</b-nav-item>
                 <b-nav-item href="/queries">Queries</b-nav-item>
                 <b-nav-item href="/extraCred">Experiment Comparisons</b-nav-item>
-{#                <b-nav-item href="#" disabled>Disabled</b-nav-item>#}
+                {#                <b-nav-item href="#" disabled>Disabled</b-nav-item>#}
             </b-navbar-nav>
 
             <!-- Right aligned nav items -->
-            <b-navbar-nav class="ml-auto">
-
-                <b-nav-form>
-                    <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search"/>
-                    <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
-                </b-nav-form>
-
-                <b-nav-item-dropdown text="Lang" right>
-                    <b-dropdown-item href="#">EN</b-dropdown-item>
-                    <b-dropdown-item href="#">ES</b-dropdown-item>
-                    <b-dropdown-item href="#">RU</b-dropdown-item>
-                    <b-dropdown-item href="#">FA</b-dropdown-item>
-                </b-nav-item-dropdown>
-
-                <b-nav-item-dropdown right>
-                    <!-- Using button-content slot -->
-                    <template slot="button-content">
-                        <em>User</em>
-                    </template>
-                    <b-dropdown-item href="#">Profile</b-dropdown-item>
-                    <b-dropdown-item href="#">Signout</b-dropdown-item>
-                </b-nav-item-dropdown>
-            </b-navbar-nav>
+{#            <b-navbar-nav class="ml-auto">#}
+{##}
+{#                <b-nav-form>#}
+{#                    <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search"/>#}
+{#                    <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>#}
+{#                </b-nav-form>#}
+{##}
+{#                <b-nav-item-dropdown text="Lang" right>#}
+{#                    <b-dropdown-item href="#">EN</b-dropdown-item>#}
+{#                    <b-dropdown-item href="#">ES</b-dropdown-item>#}
+{#                    <b-dropdown-item href="#">RU</b-dropdown-item>#}
+{#                    <b-dropdown-item href="#">FA</b-dropdown-item>#}
+{#                </b-nav-item-dropdown>#}
+{##}
+{#                <b-nav-item-dropdown right>#}
+{#                    <!-- Using button-content slot -->#}
+{#                    <template slot="button-content">#}
+{#                        <em>User</em>#}
+{#                    </template>#}
+{#                    <b-dropdown-item href="#">Profile</b-dropdown-item>#}
+{#                    <b-dropdown-item href="#">Signout</b-dropdown-item>#}
+{#                </b-nav-item-dropdown>#}
+{#            </b-navbar-nav>#}
 
         </b-collapse>
     </b-navbar>
-</div>
 
-<div>
-    <h1 style="text-align: center;margin-top:10px;">
-        Baylor University Gene Expression Data Tool
-    </h1>
-    <p style="text-align: center;margin-left: 50px;margin-top:10px;margin-right: 50px;font-size:30px;">
-        This is a tool to keep track of a study of gene expression at the messenger RNA (mRNA)
-level in different yeast strains. The mRNA is the intermediate between the DNA and protein. mRNAs are
-translated into protein. We measured RNA levels in different environmental conditions in order to
-determine how the levels change due to the environmental change.
-    </p>
-</div>
-<div style="padding: 10px;">
-    <iframe style="display: block; margin: 0 auto; padding-bottom: 20px;" width="750" height="400" src="https://www.youtube.com/embed/JQIwwJqF5D0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
-<div class="row">
-    <div class="col-lg-4 text-center">
-        <div id="insertbutton">
+
+    <div>
+        <h1 style="text-align: center;margin-top:10px;">
+            Baylor University Gene Expression Data Tool
+        </h1>
+        <p style="text-align: center;margin-left: 50px;margin-top:10px;margin-right: 50px;font-size:30px;">
+            This is a tool to keep track of a study of gene expression at the messenger RNA (mRNA)
+            level in different yeast strains. The mRNA is the intermediate between the DNA and protein. mRNAs are
+            translated into protein. We measured RNA levels in different environmental conditions in order to
+            determine how the levels change due to the environmental change.
+        </p>
+    </div>
+    <div style="padding: 10px;">
+        <iframe style="display: block; margin: 0 auto; padding-bottom: 20px;" width="750" height="400"
+                src="https://www.youtube.com/embed/JQIwwJqF5D0" frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 text-center">
             <b-button variant="success" href="/insertData" style="width: 250px;">Insert Data<br>
-                <img src="{%  static 'GUI/databaselogo.png' %}" alt="Insert Data" style="max-height: 100px">
+                <img src="{% static 'GUI/databaselogo.png' %}" alt="Insert Data" style="max-height: 100px">
             </b-button>
         </div>
-    </div>
-    <div class="col-lg-4 text-center">
-        <div id="queriesbutton">
+        <div class="col-lg-4 text-center">
             <b-button variant="success" href="/queries" style="width: 250px;">Queries<br>
-                <img src="{%  static 'GUI/querylogo.jpg' %}" alt="Queries" style="max-height: 100px">
+                <img src="{% static 'GUI/querylogo.jpg' %}" alt="Queries" style="max-height: 100px">
             </b-button>
         </div>
-    </div>
-    <div class="col-lg-4 text-center">
-        <div id="comparisonbutton">
+        <div class="col-lg-4 text-center">
             <b-button variant="success" href="/extraCred" style="width: 250px;">Experiment Comparisons<br>
-                <img src="{%  static 'GUI/comparelogo.png' %}" alt="Experiment Comparisons" style="max-height: 100px">
+                <img src="{% static 'GUI/comparelogo.png' %}" alt="Experiment Comparisons"
+                     style="max-height: 100px">
             </b-button>
         </div>
     </div>
@@ -110,9 +110,6 @@ determine how the levels change due to the environmental change.
 <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
 <script>
     new Vue({el: '#app'});
-    new Vue({el: '#queriesbutton'});
-    new Vue({el: '#comparisonbutton'});
-    new Vue({el: '#insertbutton'});
 </script>
 
 </body>
