@@ -25,9 +25,7 @@ To get the frontend/backend running locally assuming you already have mysqlclien
 
 - Install git : `https://git-scm.com/download`
 - Clone this repo : `git clone https://github.com/Michael-ibanez/DatabaseFinalProject.git`
-- Move into geneExpressionProject directory : `cd geneExpressionProject`
-- Migrate the database: `python3 manage.py migrate`
-- Move back to parent directory: `cd ..`
 - Install packages with pip : `pip install -r requirements.txt`
+- Migrate the database: `python3 manage.py migrate`
 - Start the local server: `python3 manage.py runserver`
 - Open up [this](http://127.0.0.1:8000/)
