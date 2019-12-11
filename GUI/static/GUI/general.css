@@ -1,23 +1,27 @@
 * {
     box-sizing: border-box;
 }
-html, body{
+
+html, body {
     width: 100%;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
 }
-body{
-     background-color: lightcyan;
+
+body {
+    background-color: lightcyan;
 }
-input[type="file"]{
+
+input[type="file"] {
     width: 100%;
-    background-color:transparent;
+    background-color: transparent;
     margin: 0;
     border: 0;
     padding: 0;
 }
-input[type="text"]{
+
+input[type="text"] {
     width: 60%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -25,14 +29,17 @@ input[type="text"]{
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
 }
+
 input[type=text]:focus {
     width: 120%;
 }
-.insert-sub-title{
+
+.insert-sub-title {
     text-align: left;
     margin-left: 15px;
 }
-.insert-title{
+
+.insert-title {
     font-size: 30px;
     text-decoration: underline;
     margin-left: 15px;
