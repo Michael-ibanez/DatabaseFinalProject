@@ -34,10 +34,11 @@ def dataQuery(request):
             query = 'SELECT * FROM gui_sequence WHERE name = "{}"'.format(sqlescape(seqName))
             cursor.execute(query)
             condFound = cursor.fetchall()
+            context = {'found': False}
             if len(condFound) > 0:
-                context = {'allPosts': condFound}
+                context = {'allPosts': condFound, 'found': True}
                 return render(request, 'GUI/results.html', context)
-            return render(request, 'GUI/queries.html')
+            return render(request, 'GUI/results.html', context)
 
 
 # Form for input Needs a condition(Name, domain, and possible values)
