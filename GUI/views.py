@@ -28,13 +28,13 @@ def dataInputCondition(request):
     else:
         print("Condition was already found. Try another Condition")
     return render(request, 'GUI/insertedComplete.html')
-# Form for input
+# Form for input Needs a measurement(Name, domain, and possible values)
 def dataInputMeasurement(request):
     cursor=connection.cursor()
     measName = 'none'
     measDomain = 'any'
     possibleValues = 'any'
-    # Check if that condition already exists
+    # Check if that measurement already exists
     sql_search_query = ("SELECT * FROM GUI_Measurement WHERE name=%s")
     measQuery = (measName,)
     cursor.execute(sql_search_query, measQuery)
@@ -46,15 +46,43 @@ def dataInputMeasurement(request):
     else:
         print("Measurement was already found. Try another Measurment")
     return render(request, 'GUI/insertedComplete.html')
-# Form for input
+# Form for input Needs a sequence(Name and info)
 def dataInputSequence(request):
     cursor=connection.cursor()
+    seqName = 'none'
+    seqInfo = 'none'
+    # Check if that sequence already exists
+    sql_search_query = ("SELECT * FROM GUI_Sequence WHERE name=%s")
+    seqQuery = (seqName,)
+    cursor.execute(sql_search_query, seqQuery)
+    seqFound = cursor.fetchall()
+    if len(seqFound) == 0:
+        newSeq = Condition(name=seqName,info=seqInfo)
+        newSeq.save()
+        print("Sequence inserted successfully")
+    else:
+        print("Sequence was already found. Try another Sequence")
     return render(request, 'GUI/insertedComplete.html')
-# Form for input
-def dataInputExperiment(request, data):
+# Form for input Needs an experiment(Sequence name, conditions and measurements)
+def dataInputExperiment(request):
     cursor=connection.cursor()
+    seqName  = 'none'
+    condList = 'none'
+    conds = []
+    # Check if that sequence already exists
+    sql_search_query = ("SELECT * FROM GUI_Sequence WHERE name=%s")
+    seqQuery = (seqName,)
+    cursor.execute(sql_search_query, seqQuery)
+    seqFound = cursor.fetchall()
+    if len(seqFound) > 0:
+        # For each condition check if it exists
+        for a in condList:
+            print(a)
+    else:
+        print("No sequence found")
+
     return render(request, 'GUI/insertedComplete.html')
-# Form for input
+# Form for inputting a csv file
 def insertCSV(request):
     csv_file = request.FILES['csv_file']
 
