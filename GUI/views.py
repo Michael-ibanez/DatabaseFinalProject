@@ -249,12 +249,38 @@ def queryExperiment(request):
             seqName = request.POST.get('seqName')
             if request.POST.get('expConditions') != '':
                 expConditions = request.POST.get('expConditions')
-            query = 'SELECT * FROM GUI_Experiment WHERE name = "{}"'.format(sqlescape(seqName))
+
+            # Check all of the specific conditions and find the ids for them
+            expConditions = ''.join(expConditions.split())
+            listSpecCond = expConditions.split(',')
+            list = []
+            for specCondition in listSpecCond:
+                item = specCondition.split(':')
+                query = 'SELECT * FROM GUI_SpecificCondition WHERE name = "{}" AND value = "{}"'.format(sqlescape(item[0]),sqlescape(item[1]) )
+                cursor.execute(query)
+                condFound = cursor.fetchall()
+                for a in condFound:
+                    list.append(a[0])
+            list.sort()
+            newList = str(list).strip('[]')
+            query = 'SELECT * FROM GUI_Experiment WHERE sequence = "{}" AND Conditions = "{}"'.format(sqlescape(seqName),sqlescape(newList))
             cursor.execute(query)
-            condFound = cursor.fetchall()
+            expFound = cursor.fetchall()
             context = {'found': False}
-            if len(condFound) > 0:
-                context = {'allPosts': condFound, 'found': True}
+            if len(expFound) > 0:
+                se = request.POST.get('seqName')
+                es = request.POST.get('expConditions')
+                measurementList = []
+                myList = expFound[0][3].split(', ')
+                for a in myList:
+                    query = 'SELECT * FROM GUI_SpecificMeasurement WHERE id = "{}"'.format(sqlescape(a))
+                    cursor.execute(query)
+                    measurementFound = cursor.fetchall()
+                    if len(measurementFound) > 0:
+                        mesua = measurementFound[0]
+                        strToApp = "Measurement " + mesua[1] + " has a value of : " + mesua[2]
+                        measurementList.append(strToApp)
+                context = {'ExperimentFound': expFound,'es':es,'se':se, 'measurements':measurementList, 'found': True}
                 return render(request, 'GUI/results.html', context)
             return render(request, 'GUI/results.html', context)
 

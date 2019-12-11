@@ -35,7 +35,9 @@
     </b-navbar>
     {% if found %}
         <ul>
-            {% for post in allPosts %}
+            <h3> For Sequence : {{se}} </h3>
+            <h3> With Conditons : {{es}} </h3>
+            {% for post in measurements %}
                 <li>{{ post }}</li>
             {% endfor %}
         </ul>
