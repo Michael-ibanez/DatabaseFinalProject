@@ -12,8 +12,9 @@ urlpatterns = [
     path('dataInputMeasurement', views.dataInputMeasurement, name='dataInputMeasurement'),
     path('dataInputSequence', views.insertCSV, name='dataInputSequence'),
     path('dataInputExperiment', views.dataInputExperiment, name='dataInputExperiment'),
-    
+    path('invalidInsert', views.invalidInsert, name='invalidInsert'),
 
+    path('dataQuery', views.dataQuery, name='dataQuery'),
     path('queries', views.queries, name='queries'),
     path('queryExperiment', views.queryExperiment, name='queryExperiment'),
     path('querySideBySide', views.querySideBySide, name='querySideBySide'),

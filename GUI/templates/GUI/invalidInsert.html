@@ -1,14 +1,4 @@
-{% load static %}
-
-<!--
-<link
-  rel="stylesheet"
-  href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
-/>
-<link
-  rel="stylesheet"
-  href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"
-/>-->
+{%  load static %}
 <link
         type="text/css"
         rel="stylesheet"
@@ -35,7 +25,7 @@
 
             <b-navbar-nav>
                 <b-nav-item href="/insertData">Insert Data</b-nav-item>
-                <b-nav-item href="/queries" disabled>Queries</b-nav-item>
+                <b-nav-item href="/queries">Queries</b-nav-item>
                 <b-nav-item href="/extraCred">Experiment Comparisons</b-nav-item>
                 {#                <b-nav-item href="#" disabled>Disabled</b-nav-item>#}
             </b-navbar-nav>
@@ -71,76 +61,18 @@
 
     <div>
         <h1 style="text-align: center;margin-top:10px;">
-            Queries
+            Your CSV file was invalid.
         </h1>
         <p style="text-align: center;margin-left: 50px;margin-top:10px;margin-right: 50px;font-size:30px;">
-            Here you can query for data stored within the database.
+            Nothing was saved. Please return home.
         </p>
-    </div><!--
-    <div class="row">
-        <div class="col-lg-6 text-center">Query Experiment</div>
-        <div class="col-lg-6 text-center">Query Two Experiments</div>
-    </div>-->
-
-    <div class="insert-title">Query information</div>
-    <form
-            action="{% url 'GUI:dataQuery' %}"
-            method="post"
-            enctype="multipart/form-data"
-            class="form-horizontal"
-    >
-        {% csrf_token %}
-        <div>
-            <div class="col-md-6">
-                <input
-                        type="text"
-                        name="name"
-                        id="name"
-                        required
-                        class="form-control"
-                        placeholder="Sequence Name (required)"
-                />
-            </div>
-            <div class="col-md-6">
-                <input
-                        type="text"
-                        name="domain"
-                        id="domain"
-                        class="form-control"
-                        placeholder="Experiment Conditions (optional)"
-                />
-            </div>
-            <div class="col-md-6">
-                <input
-                        type="text"
-                        name="possValues"
-                        id="possValues"
-                        class="form-control"
-                        placeholder="Measurement Conditions (optional)"
-                />
-            </div>
-        </div>
-        <div class="form-group">
-            <div
-                    class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3"
-                    style="margin-bottom:10px;"
-            >
-                <button class="btn btn-primary">
-              <span
-                      class="glyphicon glyphicon-upload"
-                      style="margin-right:5px;"
-              ></span>Submit
-                </button>
-            </div>
-        </div>
-    </form>
-
-
+    </div>
     <div class="col-lg-4 text-center" style="margin: 0 auto; padding-top: 30px; padding-bottom:100px;">
         <b-button variant="info" href="/" style="width: 250px;">Home<br>
             <img src="{% static 'GUI/home.png' %}" alt="Home" style="max-height: 100px">
         </b-button>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
     <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
     <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
@@ -148,4 +80,6 @@
         new Vue({el: '#app'});
     </script>
 </div>
+
 </body>
+</html>
