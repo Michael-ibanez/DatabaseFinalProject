@@ -89,7 +89,7 @@
             >
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="name" class="col-md-3 col-sm-3 col-xs-12 control-label"
+                    <label for="file" class="col-md-3 col-sm-3 col-xs-12 control-label"
                     >File:
                     </label>
                     <div class="col-md-8">
@@ -112,17 +112,247 @@
                       class="glyphicon glyphicon-upload"
                       style="margin-right:5px;"
               ></span
-              >Upload
+              >Submit
                         </button>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="col-lg-4 text-center">Insert condition</div>
-        <div class="col-lg-4 text-center">Insert measurement</div>
-        <div class="col-lg-6 text-center">Insert sequence and information</div>
-        <div class="col-lg-6 text-center">
-            Insert experiment with condition and results
+        <div class="col-lg-4 text-center">Insert condition
+            <form
+                    action="{% url 'GUI:dataInputCondition' %}"
+                    method="post"
+                    enctype="multipart/form-data"
+                    class="form-horizontal"
+            >
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name" class="col-md-3 col-sm-3 col-xs-12 control-label"
+                    >Name:
+                    </label>
+                    <div class="col-md-6">
+                        <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                required="True"
+                                class="form-control"
+                        />
+                    </div>
+                    <label for="domain" class="col-md-3 col-sm-3 col-xs-12 control-label"
+                    >Domain:
+                    </label>
+                    <div class="col-md-6">
+                        <input
+                                type="text"
+                                name="domain"
+                                id="domain"
+                                required="True"
+                                class="form-control"
+                        />
+                    </div>
+                    <label for="possValues" class="col-md-3 col-sm-3 col-xs-12 control-label"
+                    >Possible values:
+                    </label>
+                    <div class="col-md-6">
+                        <input
+                                type="text"
+                                name="possValues"
+                                id="possValues"
+                                required="True"
+                                class="form-control"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div
+                            class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3"
+                            style="margin-bottom:10px;"
+                    >
+                        <button class="btn btn-primary">
+              <span
+                      class="glyphicon glyphicon-upload"
+                      style="margin-right:5px;"
+              ></span
+              >Submit
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-4 text-center">Insert measurement
+            <form
+                    action="{% url 'GUI:dataInputMeasurement' %}"
+                    method="post"
+                    enctype="multipart/form-data"
+                    class="form-horizontal"
+            >
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name" class="col-md-3 col-sm-3 col-xs-12 control-label"
+                    >Name:
+                    </label>
+                    <div class="col-md-6">
+                        <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                required="True"
+                                class="form-control"
+                        />
+                    </div>
+                    <label for="domain" class="col-md-3 col-sm-3 col-xs-12 control-label"
+                    >Domain:
+                    </label>
+                    <div class="col-md-6">
+                        <input
+                                type="text"
+                                name="domain"
+                                id="domain"
+                                required="True"
+                                class="form-control"
+                        />
+                    </div>
+                    <label for="possValues" class="col-md-3 col-sm-3 col-xs-12 control-label"
+                    >Possible values:
+                    </label>
+                    <div class="col-md-6">
+                        <input
+                                type="text"
+                                name="possValues"
+                                id="possValues"
+                                required="True"
+                                class="form-control"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div
+                            class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3"
+                            style="margin-bottom:10px;"
+                    >
+                        <button class="btn btn-primary">
+              <span
+                      class="glyphicon glyphicon-upload"
+                      style="margin-right:5px;"
+              ></span
+              >Submit
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-6 text-center">Insert sequence and information
+            <form
+                    action="{% url 'GUI:dataInputSequence' %}"
+                    method="post"
+                    enctype="multipart/form-data"
+                    class="form-horizontal"
+            >
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name" class="col-md-3 col-sm-3 col-xs-12 control-label"
+                    >Name:
+                    </label>
+                    <div class="col-md-6">
+                        <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                required="True"
+                                class="form-control"
+                        />
+                    </div>
+                    <label for="info" class="col-md-3 col-sm-3 col-xs-12 control-label"
+                    >Info:
+                    </label>
+                    <div class="col-md-6">
+                        <input
+                                type="text"
+                                name="info"
+                                id="info"
+                                required="True"
+                                class="form-control"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div
+                            class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3"
+                            style="margin-bottom:10px;"
+                    >
+                        <button class="btn btn-primary">
+              <span
+                      class="glyphicon glyphicon-upload"
+                      style="margin-right:5px;"
+              ></span
+              >Submit
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-6 text-center"> Insert experiment with condition and results
+            <form
+                    action="{% url 'GUI:dataInputExperiment' %}"
+                    method="post"
+                    enctype="multipart/form-data"
+                    class="form-horizontal"
+            >
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name" class="col-md-3 col-sm-3 col-xs-12 control-label"
+                    >Sequence Name:
+                    </label>
+                    <div class="col-md-6">
+                        <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                required="True"
+                                class="form-control"
+                        />
+                    </div>
+                    <label for="conditions" class="col-md-3 col-sm-3 col-xs-12 control-label"
+                    >Conditions:
+                    </label>
+                    <div class="col-md-6">
+                        <input
+                                type="text"
+                                name="conditions"
+                                id="conditions"
+                                required="True"
+                                class="form-control"
+                        />
+                    </div>
+                    <label for="measurements" class="col-md-3 col-sm-3 col-xs-12 control-label"
+                    >Measurements:
+                    </label>
+                    <div class="col-md-6">
+                        <input
+                                type="text"
+                                name="measurements"
+                                id="measurements"
+                                required="True"
+                                class="form-control"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div
+                            class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3"
+                            style="margin-bottom:10px;"
+                    >
+                        <button class="btn btn-primary">
+              <span
+                      class="glyphicon glyphicon-upload"
+                      style="margin-right:5px;"
+              ></span
+              >Submit
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="col-lg-4 text-center" style="margin: 0 auto; padding-top: 30px;">
             <b-button variant="info" href="/" style="width: 250px;">Home<br>
