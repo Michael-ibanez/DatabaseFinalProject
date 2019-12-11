@@ -137,7 +137,7 @@ def insertCSV(request):
             newExp.save()
             print("Experiment was inserted.")
         else:
-            print("Experiment already recorded. Try another experiment")
+            print("Experiment has already been recorded. Try another experiment")
         it += 1
     return render(request, 'GUI/insertedComplete.html')
 
