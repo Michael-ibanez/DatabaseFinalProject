@@ -44,3 +44,7 @@ input[type=text]:focus {
     text-decoration: underline;
     margin-left: 15px;
 }
+
+table.b-table[aria-busy='true'] {
+  opacity: 0.6;
+}
