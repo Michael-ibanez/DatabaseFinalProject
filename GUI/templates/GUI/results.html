@@ -32,15 +32,18 @@
             </b-navbar-nav>
         </b-collapse>
     </b-navbar>
-    <ul>
-        {% if found %}
+    {% if found %}
+        <ul>
             {% for post in allPosts %}
                 <li>{{ post }}</li>
             {% endfor %}
-        {% else %}
-            <h1 style="text-align: center">There were no results to that query. Please try again.</h1>
-        {% endif %}
-    </ul>
+        </ul>
+    {% else %}
+        <h1 style="text-align: center">There were no results to that query. Please try again.</h1>
+        <div style="margin: 0 auto; display: inline-block; width: 100%;text-align: center;">
+            <img src="{% static 'GUI/sadbear.png' %}" alt="Bruiser is sad :(">
+        </div>
+    {% endif %}
     <div class="row">
         <div class="col-lg-4 text-center" style="margin: 0 auto; padding-top: 30px; padding-bottom:100px;">
             <b-button variant="info" href="/queries" style="width: 250px;">Queries<br>
