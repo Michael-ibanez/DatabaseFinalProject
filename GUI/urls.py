@@ -13,6 +13,7 @@ urlpatterns = [
     path('dataInputSequence', views.insertCSV, name='dataInputSequence'),
     path('dataInputExperiment', views.dataInputExperiment, name='dataInputExperiment'),
     path('invalidInsert', views.invalidInsert, name='invalidInsert'),
+    path('results', views.results, name='results'),
 
     path('dataQuery', views.dataQuery, name='dataQuery'),
     path('queries', views.queries, name='queries'),

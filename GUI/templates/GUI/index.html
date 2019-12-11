@@ -1,5 +1,7 @@
 {% load static %}
+<html lang="en">
 <!--
+
 <link
   rel="stylesheet"
   href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
@@ -8,63 +10,35 @@
   rel="stylesheet"
   href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"
 />-->
-<link
-        type="text/css"
-        rel="stylesheet"
-        href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css"
-/>
-<link
-        type="text/css"
-        rel="stylesheet"
-        href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"
-/>
-<link rel="stylesheet" href="{% static 'GUI/general.css' %}"/>
-
+<head>
+    <title>BU Gene Expression Tool</title>
+    <link
+            type="text/css"
+            rel="stylesheet"
+            href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link
+            type="text/css"
+            rel="stylesheet"
+            href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"
+    />
+    <link rel="stylesheet" href="{% static 'GUI/general.css' %}"/>
+</head>
 <body>
 <div id="app">
+    {# navbar #}
     <b-navbar toggleable="md" type="dark" variant="info">
-
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-
         <b-navbar-brand href="/" style="font-size: 25px">
             <img src="{% static 'GUI/bu.png' %}" alt="Baylor Biology" style="max-height: 40px">
             Baylor Biology
         </b-navbar-brand>
-
         <b-collapse is-nav id="nav_collapse">
-
             <b-navbar-nav>
                 <b-nav-item href="/insertData">Insert Data</b-nav-item>
                 <b-nav-item href="/queries">Queries</b-nav-item>
                 <b-nav-item href="/extraCred">Experiment Comparisons</b-nav-item>
-                {#                <b-nav-item href="#" disabled>Disabled</b-nav-item>#}
             </b-navbar-nav>
-
-            <!-- Right aligned nav items -->
-            {#            <b-navbar-nav class="ml-auto">#}
-            {##}
-            {#                <b-nav-form>#}
-            {#                    <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search"/>#}
-            {#                    <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>#}
-            {#                </b-nav-form>#}
-            {##}
-            {#                <b-nav-item-dropdown text="Lang" right>#}
-            {#                    <b-dropdown-item href="#">EN</b-dropdown-item>#}
-            {#                    <b-dropdown-item href="#">ES</b-dropdown-item>#}
-            {#                    <b-dropdown-item href="#">RU</b-dropdown-item>#}
-            {#                    <b-dropdown-item href="#">FA</b-dropdown-item>#}
-            {#                </b-nav-item-dropdown>#}
-            {##}
-            {#                <b-nav-item-dropdown right>#}
-            {#                    <!-- Using button-content slot -->#}
-            {#                    <template slot="button-content">#}
-            {#                        <em>User</em>#}
-            {#                    </template>#}
-            {#                    <b-dropdown-item href="#">Profile</b-dropdown-item>#}
-            {#                    <b-dropdown-item href="#">Signout</b-dropdown-item>#}
-            {#                </b-nav-item-dropdown>#}
-            {#            </b-navbar-nav>#}
-
         </b-collapse>
     </b-navbar>
 
@@ -113,3 +87,4 @@
 </script>
 
 </body>
+</html>
