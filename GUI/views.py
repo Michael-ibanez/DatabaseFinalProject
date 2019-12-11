@@ -35,7 +35,7 @@ def dataInputCondition(request):
     cursor.execute(sql_search_query, condQuery)
     condFound = cursor.fetchall()
     if len(condFound) == 0:
-        newCon = Condition(name=condName, domain=condDomain, possValues=possibleValues)
+        newCon = Condition(name=sqlescape(condName), domain=sqlescape(condDomain), possValues=sqlescape(possibleValues))
         newCon.save()
         print("Condition inserted successfully")
     else:
@@ -55,11 +55,11 @@ def dataInputMeasurement(request):
     cursor.execute(sql_search_query, measQuery)
     measFound = cursor.fetchall()
     if len(measFound) == 0:
-        newMeas = Condition(name=measName, domain=measDomain, possValues=possibleValues)
+        newMeas = Condition(name=sqlescape(measName), domain=sqlescape(measDomain), possValues=sqlescape(possibleValues))
         newMeas.save()
         print("Measurement inserted successfully")
     else:
-        print("Measurement was already found. Try another Measurment")
+        print("Measurement was already found. Try another Measurement")
     return render(request, 'GUI/insertedComplete.html')
 
 
@@ -74,7 +74,7 @@ def dataInputSequence(request):
     cursor.execute(sql_search_query, seqQuery)
     seqFound = cursor.fetchall()
     if len(seqFound) == 0:
-        newSeq = Condition(name=seqName, info=seqInfo)
+        newSeq = Condition(name=sqlescape(seqName), info=sqlescape(seqInfo))
         newSeq.save()
         print("Sequence inserted successfully")
     else:
@@ -156,7 +156,7 @@ def insertCSV(request):
             cursor.execute(sql_search_query, ConQuery)
             conFound = cursor.fetchall()
             if len(conFound) == 0:
-                newCon = Condition(name=line[i], domain="any", possValues="any")
+                newCon = Condition(name=sqlescape(line[i]), domain="any", possValues="any")
                 newCon.save()
             # Check if the specific condition exists else insert it
             sql_search_query = ("SELECT * FROM GUI_SpecificCondition WHERE name=%s AND value=%s")

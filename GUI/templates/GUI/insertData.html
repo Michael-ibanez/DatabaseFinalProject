@@ -80,7 +80,7 @@
     </p>
     <div class="row">
         <div class="col-lg-4">
-            <div class="insert-title">Insert file</div>
+            <div class="insert-title">Insert CSV file</div>
             <form
                     action="{% url 'GUI:insertCSV' %}"
                     method="post"
@@ -89,9 +89,6 @@
             >
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="file" class="insert-sub-title">
-                        File:
-                    </label>
                     <div class="col-md-8">
                         <input
                                 type="file"
