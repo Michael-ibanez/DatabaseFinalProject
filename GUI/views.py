@@ -125,6 +125,7 @@ def insertCSV(request):
     #   to make an experiment if it doesnt exist
     it = 0
     while it < count:
+        conds[it].sort()
         print(seqCond[it], " has conditions:",str(conds[it]).strip('[]')," and measurements:",str(measurements[it]).strip('[]'))
         sql_search_query = ("SELECT * FROM GUI_Experiment WHERE sequence=%s AND conditions=%s")
         SpecCond = str(conds[it]).strip('[]')
