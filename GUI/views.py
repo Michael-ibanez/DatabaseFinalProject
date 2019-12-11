@@ -1,6 +1,7 @@
 from django.db import connection
 from django.http import HttpResponse
 from django.shortcuts import render
+from sqlescapy import sqlescape
 
 from .models import Sequence, Measurement, Condition, SpecificCondition, SpecificMeasurement, Experiment
 
@@ -116,7 +117,7 @@ def insertCSV(request):
     # Read in each line of the csv file
     try:
         file_data = csv_file.read().decode("utf-8")
-    except Exception as e:
+    except Exception:
         return render(request, 'GUI/invalidInsert.html')
     lines = file_data.split("\r\n")
     # Loop over the lines and save them in db. If error , store as string and then display
@@ -126,8 +127,8 @@ def insertCSV(request):
     seqCond = {}
     conds = []
     measurements = []
-    count = 0;
-    curr = 0;
+    count = 0
+    curr = 0
     measurement = 0
     cursor = connection.cursor()
     # Each is a particular seq with its conditions
@@ -163,7 +164,7 @@ def insertCSV(request):
             cursor.execute(sql_search_query, SpecConQuery)
             SpecConFound = cursor.fetchall()
             if len(SpecConFound) == 0:
-                newSpecCon = SpecificCondition(name=line[i], value=line[i + 1])
+                newSpecCon = SpecificCondition(name=sqlescape(line[i]), value=sqlescape(line[i + 1]))
                 newSpecCon.save()
                 print("Added new specific condition : ", newSpecCon.id)
                 conds[count].append(newSpecCon.id)
@@ -184,7 +185,7 @@ def insertCSV(request):
         cursor.execute(sql_search_query, measurementQuery)
         measurementFound = cursor.fetchall()
         if len(measurementFound) == 0:
-            newMeasurement = Measurement(name=fields[0], domain="any", possValues="any")
+            newMeasurement = Measurement(name=sqlescape(fields[0]), domain="any", possValues="any")
             newMeasurement.save()
 
         # Insert into db the specific measurement and if it doesnt exist store the id
@@ -194,7 +195,7 @@ def insertCSV(request):
             cursor.execute(sql_search_query, SpecMeaQuery)
             SpecMeaFound = cursor.fetchall()
             if len(SpecMeaFound) == 0:
-                newSpecMea = SpecificMeasurement(name=fields[0], value=exp)
+                newSpecMea = SpecificMeasurement(name=sqlescape(fields[0]), value=sqlescape(exp))
                 newSpecMea.save()
                 print("\tAdded new specific measurement : ", newSpecMea.id)
                 measurements[curr].append(newSpecMea.id)
@@ -219,7 +220,7 @@ def insertCSV(request):
         cursor.execute(sql_search_query, expQuery)
         expFound = cursor.fetchall()
         if len(expFound) == 0:
-            newExp = Experiment(sequence=seqCond[it], conditions=SpecCond, measurements=SpecMeasure)
+            newExp = Experiment(sequence=sqlescape(seqCond[it]), conditions=sqlescape(SpecCond), measurements=sqlescape(SpecMeasure))
             newExp.save()
             print("Experiment was inserted.")
         else:
