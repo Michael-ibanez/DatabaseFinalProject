@@ -9,21 +9,50 @@ def index(request):
     return render(request, 'GUI/index.html', context)
 # Data input page of our project
 def insertData(request):
-    if request.method == 'POST':
-        return insertCSV(request)
-    else:
-        return render(request, 'GUI/insertData.html')
-# Form for input
+    return render(request, 'GUI/insertData.html')
+# Form for input Needs a condition(Name, domain, and possible values)
 def dataInputCondition(request):
+    cursor=connection.cursor()
+    condName = 'none'
+    condDomain = 'any'
+    possibleValues = 'any'
+    # Check if that condition already exists
+    sql_search_query = ("SELECT * FROM GUI_Condition WHERE name=%s")
+    condQuery = (condName,)
+    cursor.execute(sql_search_query, condQuery)
+    condFound = cursor.fetchall()
+    if len(condFound) == 0:
+        newCon = Condition(name=condName,domain=condDomain,possValues=possibleValues)
+        newCon.save()
+        print("Condition inserted successfully")
+    else:
+        print("Condition was already found. Try another Condition")
     return render(request, 'GUI/insertedComplete.html')
 # Form for input
 def dataInputMeasurement(request):
+    cursor=connection.cursor()
+    measName = 'none'
+    measDomain = 'any'
+    possibleValues = 'any'
+    # Check if that condition already exists
+    sql_search_query = ("SELECT * FROM GUI_Measurement WHERE name=%s")
+    measQuery = (measName,)
+    cursor.execute(sql_search_query, measQuery)
+    measFound = cursor.fetchall()
+    if len(measFound) == 0:
+        newMeas = Condition(name=measName,domain=measDomain,possValues=possibleValues)
+        newMeas.save()
+        print("Measurement inserted successfully")
+    else:
+        print("Measurement was already found. Try another Measurment")
     return render(request, 'GUI/insertedComplete.html')
 # Form for input
 def dataInputSequence(request):
+    cursor=connection.cursor()
     return render(request, 'GUI/insertedComplete.html')
 # Form for input
 def dataInputExperiment(request, data):
+    cursor=connection.cursor()
     return render(request, 'GUI/insertedComplete.html')
 # Form for input
 def insertCSV(request):
