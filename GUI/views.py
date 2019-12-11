@@ -21,26 +21,6 @@ def results(request):
     return render(request, 'GUI/results.html')
 
 
-def dataQuery(request):
-    if request.method == 'POST':
-        with connection.cursor() as cursor:
-            expConditions = ''
-            measureConditions = ''
-            seqName = request.POST.get('seqName')
-            if request.POST.get('expConditions') != '':
-                expConditions = request.POST.get('expConditions')
-            if request.POST.get('measureConditions') != '':
-                measureConditions = request.POST.get('measureConditions')
-            query = 'SELECT * FROM gui_sequence WHERE name = "{}"'.format(sqlescape(seqName))
-            cursor.execute(query)
-            condFound = cursor.fetchall()
-            context = {'found': False}
-            if len(condFound) > 0:
-                context = {'allPosts': condFound, 'found': True}
-                return render(request, 'GUI/results.html', context)
-            return render(request, 'GUI/results.html', context)
-
-
 # Form for input Needs a condition(Name, domain, and possible values)
 def dataInputCondition(request):
     if request.method == 'POST':
@@ -260,12 +240,26 @@ def queries(request):
     return render(request, 'GUI/queries.html')
 
 
-# Form for query
+# Form for query experiment(Sequence name and conditions)
 def queryExperiment(request):
-    return HttpResponse("Form to query an experiment")
+    if request.method == 'POST':
+        with connection.cursor() as cursor:
+            expConditions = ''
+            measureConditions = ''
+            seqName = request.POST.get('seqName')
+            if request.POST.get('expConditions') != '':
+                expConditions = request.POST.get('expConditions')
+            query = 'SELECT * FROM GUI_Experiment WHERE name = "{}"'.format(sqlescape(seqName))
+            cursor.execute(query)
+            condFound = cursor.fetchall()
+            context = {'found': False}
+            if len(condFound) > 0:
+                context = {'allPosts': condFound, 'found': True}
+                return render(request, 'GUI/results.html', context)
+            return render(request, 'GUI/results.html', context)
 
 
-# Form for query
+# Form for query side by side comparison of two experiments
 def querySideBySide(request):
     return HttpResponse("Form to query two experiments and compare")
 

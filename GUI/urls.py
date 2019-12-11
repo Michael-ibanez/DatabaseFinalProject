@@ -15,7 +15,6 @@ urlpatterns = [
     path('invalidInsert', views.invalidInsert, name='invalidInsert'),
     path('results', views.results, name='results'),
 
-    path('dataQuery', views.dataQuery, name='dataQuery'),
     path('queries', views.queries, name='queries'),
     path('queryExperiment', views.queryExperiment, name='queryExperiment'),
     path('querySideBySide', views.querySideBySide, name='querySideBySide'),

@@ -59,7 +59,7 @@
 
     <div class="insert-title">Query information</div>
     <form
-            action="{% url 'GUI:dataQuery' %}"
+            action="{% url 'GUI:queryExperiment' %}"
             method="post"
             enctype="multipart/form-data"
             class="form-horizontal"
@@ -73,7 +73,7 @@
                         id="seqName"
                         required
                         class="form-control"
-                        placeholder="Sequence Name (required)"
+                        placeholder="Sequence Name (required) <Name>"
                 />
             </div>
             <div class="col-md-6">
@@ -82,16 +82,7 @@
                         name="expConditions"
                         id="expConditions"
                         class="form-control"
-                        placeholder="Experiment Conditions (optional)"
-                />
-            </div>
-            <div class="col-md-6">
-                <input
-                        type="text"
-                        name="measureConditions"
-                        id="measureConditions"
-                        class="form-control"
-                        placeholder="Measurement Conditions (optional)"
+                        placeholder="Experiment Conditions (required) <Measurement:Value> separated by a comma"
                 />
             </div>
         </div>
