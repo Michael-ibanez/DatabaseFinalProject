@@ -13,16 +13,16 @@ def insertData(request):
         return render(request, 'GUI/insertData.html')
 # Form for input
 def dataInputCondition(request):
-    return HttpResponse("Form to insert condition")
+    return render(request, 'GUI/insertedComplete.html')
 # Form for input
 def dataInputMeasurement(request):
-    return HttpResponse("Form to insert measurement")
+    return render(request, 'GUI/insertedComplete.html')
 # Form for input
 def dataInputSequence(request):
-    return HttpResponse("Form to insert sequence")
+    return render(request, 'GUI/insertedComplete.html')
 # Form for input
 def dataInputExperiment(request, data):
-    return HttpResponse("Thanks for submitting {{ data }}")
+    return render(request, 'GUI/insertedComplete.html')
 # Form for input
 def insertCSV(request):
     csv_file = request.FILES['csv_file']
@@ -39,18 +39,25 @@ def insertCSV(request):
     fields = lineOne.split(",")
     experiments = {}
     count = 0;
+    curr = 0;
     for exp in fields:
         experiments[count] = exp
+        print("Inserted "+ exp+ " into the database as a sequence")
         count+= 1
     print(experiments)
     for line in lines[1:-1]:
         fields = line.split(",")
         data_dict = {}
         data_dict['measurement'] = fields[0]
-        count = 0;
+        curr = 0;
         for exp in fields[1:]:
             data_dict[count] = exp
-            count += 1
+            print("Sequence ", curr, " has var "+fields[0]+" of "+exp)
+            curr += 1
+        while curr < count:
+            print("Sequence ",curr, " has var "+fields[0]+" of nothing")
+            curr += 1
+
         print(data_dict)
 
         ###### What we use to insert
