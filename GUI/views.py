@@ -353,6 +353,7 @@ def queryExtraCred(request):
                     if len(cursor.fetchall()) > 0:
                         if expMeasures != '':
                             # TODO: replace experiment.measurements with actual measurement id list
+                            # not doing a for loop to iterate over all experiment.measurements because want to retrieve them all in one query
                             query = 'SELECT sm.name, sm.value from GUI_SpecificMeasurement sm WHERE sm.id IN "{}" AND sm.name IN "{}"'.format(sqlescape(experiment.measurements), sqlescape(expMeasures))
                             cursor.execute(query)
 
