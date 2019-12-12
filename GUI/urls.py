@@ -20,6 +20,5 @@ urlpatterns = [
     path('querySideBySide', views.querySideBySide, name='querySideBySide'),
 
     path('extraCred', views.extraCred, name='extraCred'),
-    path('extraCredPart1', views.extraCredPart1, name='extraCredPart1'),
-    path('extraCredPart2', views.extraCredPart2, name='extraCredPart2'),
+    path('queryExtraCred', views.queryExtraCred, name='queryExtraCred'),
 ]

@@ -266,7 +266,6 @@ def queryExperiment(request):
     if request.method == 'POST':
         with connection.cursor() as cursor:
             expConditions = ''
-            measureConditions = ''
             seqName = request.POST.get('seqName')
             if request.POST.get('expConditions') != '':
                 expConditions = request.POST.get('expConditions')
@@ -315,16 +314,54 @@ def querySideBySide(request):
     return HttpResponse("Form to query two experiments and compare")
 
 
-# Extra credit page of our prokect
+# Extra credit page of our project
 def extraCred(request):
     return render(request, 'GUI/extraCred.html')
 
 
 # Form for extra credit query
-def extraCredPart1(request):
-    return HttpResponse("Form to query sequences and conditions")
+def queryExtraCred(request):
+    #   The user should enter a list of sequences and conditions.
+    #
+    #       Then the system should retrieve all experiments that has the sequence and
+    #           (at least) one of the conditions and list them.
+    #
+    #   The user can also enter a list of measurements and the system will return the value
+    #       of the measurements for all the experiments above as a table.
 
+    if request.method == 'POST':
+        with connection.cursor() as cursor:
+            seqName = request.POST.get('seqName')
 
-# Form for extra credit query
-def extraCredPart2(request):
-    return HttpResponse("Form to query list of measurements")
+            # list of experiment names
+            expConditions = request.POST.get('expConditions')
+            expConditions = ''.join(expConditions.split()).split(',')
+
+            # list of measurement names
+            expMeasures = request.POST.get('expMeasures')
+            expMeasures = ''.join(expMeasures.split()).split(',')
+
+            expFound = []
+
+            query = 'SELECT * FROM GUI_Experiment e WHERE e.sequence = "{}"'.format(sqlescape(seqName))
+            cursor.execute(query)
+            for experiment in cursor.fetchall():
+                # TODO: replace experiment.conditions with actual condition id list
+                for condition in experiment.conditions:
+                    query = 'SELECT * FROM GUI_SpecificCondition sc WHERE sc.id = "{}" AND sc.name IN "{}"'.format(sqlescape(condition), sqlescape(expConditions))
+                    cursor.execute(query)
+
+                    if len(cursor.fetchall()) > 0:
+                        if expMeasures != '':
+                            # TODO: replace experiment.measurements with actual measurement id list
+                            query = 'SELECT sm.name, sm.value from GUI_SpecificMeasurement sm WHERE sm.id IN "{}" AND sm.name IN "{}"'.format(sqlescape(experiment.measurements), sqlescape(expMeasures))
+                            cursor.execute(query)
+
+                            expFound.append((experiment, cursor.fetchall()))
+                        else:
+                            expFound.append(experiment)
+
+                        break
+
+            context = {'ExperimentsFound': expFound, 'found': len(expFound) > 0}
+            return render(request, 'GUI/results.html', context)
