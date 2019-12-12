@@ -262,7 +262,15 @@ def insertCSV(request):
 
 # Query page of our project
 def queries(request):
-    return render(request, 'GUI/queries.html')
+    with connection.cursor() as cursor:
+        query = 'SELECT * FROM GUI_Experiment'
+        cursor.execute(query)
+        expFound = cursor.fetchall()
+        list = {}
+        for exp in expFound:
+            list[exp[0]] = exp[0]
+        context = {'data':({"choices":list})}
+        return render(request, 'GUI/queries.html',context)
 
 
 # Form for query experiment(Sequence name and conditions)
@@ -314,7 +322,49 @@ def queryExperiment(request):
 
 # Form for query side by side comparison of two experiments
 def querySideBySide(request):
-    return HttpResponse("Form to query two experiments and compare")
+    if request.method == 'POST':
+        with connection.cursor() as cursor:
+            expConditions = ''
+            seqName = request.POST.get('seqName')
+            if request.POST.get('expConditions') != '':
+                expConditions = request.POST.get('expConditions')
+
+            # Check all of the specific conditions and find the ids for them
+            expConditions = ''.join(expConditions.split())
+            listSpecCond = expConditions.split(',')
+            list = []
+            for specCondition in listSpecCond:
+                item = specCondition.split(':')
+                query = 'SELECT * FROM GUI_SpecificCondition WHERE name = "{}" AND value = "{}"'.format(
+                    sqlescape(item[0]), sqlescape(item[1]))
+                cursor.execute(query)
+                condFound = cursor.fetchall()
+                for a in condFound:
+                    list.append(a[0])
+            list.sort()
+            newList = str(list).strip('[]')
+            query = 'SELECT * FROM GUI_Experiment WHERE sequence = "{}" AND Conditions = "{}"'.format(
+                sqlescape(seqName), sqlescape(newList))
+            cursor.execute(query)
+            expFound = cursor.fetchall()
+            context = {'found': False}
+            if len(expFound) > 0:
+                se = request.POST.get('seqName')
+                es = request.POST.get('expConditions')
+                measurementList = {}
+                myList = expFound[0][3].split(', ')
+                for a in myList:
+                    query = 'SELECT * FROM GUI_SpecificMeasurement WHERE id = "{}"'.format(sqlescape(a))
+                    cursor.execute(query)
+                    measurementFound = cursor.fetchall()
+                    if len(measurementFound) > 0:
+                        mesua = measurementFound[0]
+                        measurementList[mesua[1]] = mesua[2]
+                context = {"data": ({"ExperimentFound": expFound, "es": es, "se": se, "measurements": measurementList}),
+                           "found": True}
+                print(context)
+                return render(request, 'GUI/results.html', context)
+            return render(request, 'GUI/results.html', context)
 
 
 # Extra credit page of our project
