@@ -21,4 +21,5 @@ urlpatterns = [
 
     path('extraCred', views.extraCred, name='extraCred'),
     path('queryExtraCred', views.queryExtraCred, name='queryExtraCred'),
+    path('error', views.error, name='error')
 ]

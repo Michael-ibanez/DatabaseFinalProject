@@ -12,6 +12,10 @@ def index(request):
     return render(request, 'GUI/index.html', context)
 
 
+def error(request):
+    return render(request, 'GUI/error.html')
+
+
 # Data input page of our project
 def insertData(request):
     return render(request, 'GUI/insertData.html')
