@@ -10,7 +10,7 @@ urlpatterns = [
     path('insertCSV', views.insertCSV, name='insertCSV'),
     path('dataInputCondition', views.dataInputCondition, name='dataInputCondition'),
     path('dataInputMeasurement', views.dataInputMeasurement, name='dataInputMeasurement'),
-    path('dataInputSequence', views.insertCSV, name='dataInputSequence'),
+    path('dataInputSequence', views.dataInputSequence, name='dataInputSequence'),
     path('dataInputExperiment', views.dataInputExperiment, name='dataInputExperiment'),
     path('invalidInsert', views.invalidInsert, name='invalidInsert'),
 
