@@ -311,7 +311,7 @@ def queryExperiment(request):
                         mesua = measurementFound[0]
                         measurementList[mesua[1]] = mesua[2]
                 context = {"data": ({"ExperimentFound": expFound, "es": es, "se": se, "measurements": measurementList}),
-                           "found": True}
+                           "found": True, "compare": False}
                 print(context)
                 return render(request, 'GUI/results.html', context)
             return render(request, 'GUI/results.html', context)
@@ -321,46 +321,35 @@ def queryExperiment(request):
 def querySideBySide(request):
     if request.method == 'POST':
         with connection.cursor() as cursor:
-            expConditions = ''
-            seqName = request.POST.get('seqName')
-            if request.POST.get('expConditions') != '':
-                expConditions = request.POST.get('expConditions')
-
-            # Check all of the specific conditions and find the ids for them
-            expConditions = ''.join(expConditions.split())
-            listSpecCond = expConditions.split(',')
-            dataList = []
-            for specCondition in listSpecCond:
-                item = specCondition.split(':')
-                query = 'SELECT * FROM GUI_SpecificCondition WHERE name = "{}" AND value = "{}"'.format(
-                    sqlescape(item[0]), sqlescape(item[1]))
-                cursor.execute(query)
-                condFound = cursor.fetchall()
-                for a in condFound:
-                    dataList.append(a[0])
-            dataList.sort()
-            newList = str(dataList).strip('[]')
-            query = 'SELECT * FROM GUI_Experiment WHERE sequence = "{}" AND Conditions = "{}"'.format(
-                sqlescape(seqName), sqlescape(newList))
+            one = request.POST.get('itemOneChoice')
+            two = request.POST.get('itemTwoChoice')
+            # Get both experiments and convert their measurementlists into list of ints
+            query = 'SELECT * FROM GUI_Experiment WHERE id = "{}" '.format(
+                sqlescape(one))
             cursor.execute(query)
-            expFound = cursor.fetchall()
-            context = {'found': False}
-            if len(expFound) > 0:
-                se = request.POST.get('seqName')
-                es = request.POST.get('expConditions')
-                measurementList = {}
-                myList = expFound[0][3].split(', ')
-                for a in myList:
-                    query = 'SELECT * FROM GUI_SpecificMeasurement WHERE id = "{}"'.format(sqlescape(a))
-                    cursor.execute(query)
-                    measurementFound = cursor.fetchall()
-                    if len(measurementFound) > 0:
-                        mesua = measurementFound[0]
-                        measurementList[mesua[1]] = mesua[2]
-                context = {"data": ({"ExperimentFound": expFound, "es": es, "se": se, "measurements": measurementList}),
-                           "found": True}
-                print(context)
-                return render(request, 'GUI/results.html', context)
+            expOneFound = cursor.fetchall()
+            query = 'SELECT * FROM GUI_Experiment WHERE id = "{}" '.format(
+                sqlescape(two))
+            cursor.execute(query)
+            expTwoFound = cursor.fetchall()
+            one = [int(i) for i in expOneFound[0][3].split(',')]
+            two = [int(i) for i in expTwoFound[0][3].split(',')]
+            one = set(one)
+            two = set(two)
+            es1 = expOneFound[0][1]
+            es2 = expTwoFound[0][1]
+            similarSet = one & two
+            measurementList = {}
+            for a in similarSet:
+                query = 'SELECT * FROM GUI_SpecificMeasurement WHERE id = "{}"'.format(sqlescape(str(a)))
+                cursor.execute(query)
+                measurementFound = cursor.fetchall()
+                if len(measurementFound) > 0:
+                    mesua = measurementFound[0]
+                    measurementList[mesua[1]] = mesua[2]
+
+            context = {"data": ({"es1": es1, "es2": es2, "measurements": measurementList}),
+                       "found": True, "compare": True}
             return render(request, 'GUI/results.html', context)
 
 

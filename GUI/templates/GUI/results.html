@@ -39,11 +39,18 @@
     https://stackoverflow.com/questions/57960853/why-bootstrap-table-example-not-working-for-me
     https://bootstrap-vue.js.org/docs/components/table/
     -->
-    {% if found and not compare %}
+    {% if found%}
+        {% if not compare%}
         <h1 style="padding-left: 20px; padding-top: 10px;">Your query for sequence: {{ data.se }} with conditions: {{ data.es }} has returned the following results:</h1>
         <div style="padding: 20px;">
             <b-table stacked responsive striped dark bordered :items="items"></b-table>
         </div>
+        {% else %}
+        <h1 style="padding-left: 20px; padding-top: 10px;">Your query for sequence: {{ data.es1 }} and sequence: {{ data.es2 }} has returned the following results:</h1>
+        <div style="padding: 20px;">
+            <b-table stacked responsive striped dark bordered :items="items"></b-table>
+        </div>
+        {% endif %}
 
     {% else %}
         <h1 style="text-align: center">There were no results to that query. Please try again.</h1>
