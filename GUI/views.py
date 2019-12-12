@@ -301,9 +301,9 @@ def queries(request):
         query = 'SELECT * FROM GUI_Experiment'
         cursor.execute(query)
         expFound = cursor.fetchall()
-        dataList = []
+        dataList = {}
         for exp in expFound:
-            dataList.append(str(exp[0]) + " " + str(exp[1]) + " conditon ids: "+ str(exp[2]))
+            dataList[exp[0]] = str(exp[0]) + " " + str(exp[1]) + " conditon ids: "+ str(exp[2])
         context = {'data': ({"choices": dataList})}
         return render(request, 'GUI/queries.html', context)
 
