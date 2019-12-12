@@ -50,9 +50,9 @@ def results(request):
 def dataInputCondition(request):
     if request.method == 'POST':
         with connection.cursor() as cursor:
-            condName = 'none'
-            condDomain = 'any'
-            possibleValues = 'any'
+            condName = request.POST.get('name')
+            condDomain = request.POST.get('domain')
+            possibleValues = request.POST.get('possValues')
             # Check if that condition already exists
             sql_search_query = "SELECT * FROM GUI_Condition WHERE name=%s"
             condQuery = (sqlescape(condName),)
@@ -72,16 +72,16 @@ def dataInputCondition(request):
 def dataInputMeasurement(request):
     if request.method == 'POST':
         with connection.cursor() as cursor:
-            measName = 'none'
-            measDomain = 'any'
-            possibleValues = 'any'
+            measName = request.POST.get('name')
+            measDomain = request.POST.get('domain')
+            possibleValues = request.POST.get('possValues')
             # Check if that measurement already exists
             sql_search_query = ("SELECT * FROM GUI_Measurement WHERE name=%s")
             measQuery = (sqlescape(measName),)
             cursor.execute(sql_search_query, measQuery)
             measFound = cursor.fetchall()
             if len(measFound) == 0:
-                newMeas = Condition(name=sqlescape(measName), domain=sqlescape(measDomain),
+                newMeas = Measurement(name=sqlescape(measName), domain=sqlescape(measDomain),
                                     possValues=sqlescape(possibleValues))
                 newMeas.save()
                 print("Measurement inserted successfully")
@@ -94,15 +94,15 @@ def dataInputMeasurement(request):
 def dataInputSequence(request):
     if request.method == 'POST':
         with connection.cursor() as cursor:
-            seqName = 'none'
-            seqInfo = 'none'
+            seqName = request.POST.get('name')
+            seqInfo = request.POST.get('info')
             # Check if that sequence already exists
             sql_search_query = ("SELECT * FROM GUI_Sequence WHERE name=%s")
             seqQuery = (sqlescape(seqName),)
             cursor.execute(sql_search_query, seqQuery)
             seqFound = cursor.fetchall()
             if len(seqFound) == 0:
-                newSeq = Condition(name=sqlescape(seqName), info=sqlescape(seqInfo))
+                newSeq = Sequence(name=sqlescape(seqName), info=sqlescape(seqInfo))
                 newSeq.save()
                 print("Sequence inserted successfully")
             else:
@@ -111,12 +111,15 @@ def dataInputSequence(request):
 
 
 # Form for input Needs an experiment(Sequence name, conditions and measurements)
+
 def dataInputExperiment(request):
     if request.method == 'POST':
         with connection.cursor() as cursor:
-            seqName = 'none'
-            condList = 'none'
-            conds = []
+            seqName = request.POST.get('name')
+            condList = request.POST.get('conditions')
+            measList = request.POST.get('measurements')
+            conditionsList = []
+            measurementsList = []
             # Check if that sequence already exists
             sql_search_query = ("SELECT * FROM GUI_Sequence WHERE name=%s")
             seqQuery = (sqlescape(seqName),)
@@ -124,11 +127,47 @@ def dataInputExperiment(request):
             seqFound = cursor.fetchall()
             if len(seqFound) > 0:
                 # For each condition check if it exists
-                for a in condList:
-                    print(a)
+                conList = condList.split(', ')
+                flag = 1
+                for a in conList:
+                    aa = a.split(':')
+                    sql_search_query = ("SELECT * FROM GUI_Condition WHERE name=%s")
+                    seqQuery = (sqlescape(aa[0]),)
+                    cursor.execute(sql_search_query, seqQuery)
+                    conFound = cursor.fetchall()
+                    if len(seqFound) == 0:
+                        flag = 0
+                if flag:
+                    meaList = measList.split(', ')
+                    flag2 = 1
+                    for b in meaList:
+                        bb = b.split(':')
+                        sql_search_query = ("SELECT * FROM GUI_Measurement WHERE name=%s")
+                        seqQuery = (sqlescape(bb[0]),)
+                        cursor.execute(sql_search_query, seqQuery)
+                        meaFound = cursor.fetchall()
+                        if len(meaFound) == 0:
+                            flag2 = 0;
+                if flag2:
+                    # insert all conditions and measurements then insert the experiment
+                    for a in conList:
+                        aa = a.split(':')
+                        newSpecCon = SpecificCondition(name=sqlescape(aa[0]), value=sqlescape(aa[1]))
+                        newSpecCon.save()
+                        conditionsList.append(newSpecCon.id)
+                    for b in meaList:
+                        bb = b.split(':')
+                        newSpecMea = SpecificCondition(name=sqlescape(bb[0]), value=sqlescape(bb[1]))
+                        newSpecMea.save()
+                        measurementsList.append(newSpecMea.id)
+                    SpecCond = str(conditionsList).strip('[]')
+                    SpecMeau = str(measurementsList).strip('[]')
+                    newExp = Experiment(sequence=sqlescape(seqName), conditions=sqlescape(SpecCond),
+                                        measurements=sqlescape(SpecMeau))
+                    newExp.save()
             else:
                 print("No sequence found")
-
+                return error(request)
             return render(request, 'GUI/insertedComplete.html')
 
 
@@ -311,7 +350,6 @@ def queryExperiment(request):
                         measurementList[mesua[1]] = mesua[2]
                 context = {"data": ({"ExperimentFound": expFound, "es": es, "se": se, "measurements": measurementList}),
                            "found": True, "compare": False}
-                print(context)
                 return render(request, 'GUI/results.html', context)
             return render(request, 'GUI/results.html', context)
 
