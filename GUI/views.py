@@ -318,50 +318,27 @@ def extraCred(request):
     return render(request, 'GUI/extraCred.html')
 
 
-# seqName	'<Test>'
-# expConditions	'<Color:True, True:False>'
-
 # Form for extra credit query
-def extraCredPart1(request):
+def queryExtraCred(request):
     #   The user should enter a list of sequences and conditions.
     #
     #       Then the system should retrieve all experiments that has the sequence and
     #           (at least) one of the conditions and list them.
-
-    if request.method == 'POST':
-        with connection.cursor() as cursor:
-            seqName = request.POST.get('seqName')
-            expConditions = request.POST.get('expConditions')
-
-            expFound = []
-
-            query = 'SELECT * FROM GUI_Experiment e WHERE e.sequence = "{}"'.format(sqlescape(seqName))
-            cursor.execute(query)
-            for experiment in cursor.fetchall():
-                # actually handle the db return
-                for condition in experiment.conditions:
-                    query = 'SELECT * FROM GUI_SpecificCondition sc WHERE sc.ID = "{}" AND sc.name IN "{}"'.format(
-                        sqlescape(condition), sqlescape(expConditions))
-                    cursor.execute(query)
-
-                    if len(cursor.fetchall()) > 0:
-                        expFound.append(experiment)
-                        break
-
-            context = {'ExperimentsFound': expFound, 'found': len(expFound) > 0}
-            return render(request, 'GUI/results.html', context)
-
-
-# Form for extra credit query
-def extraCredPart2(request):
+    #
     #   The user can also enter a list of measurements and the system will return the value
     #       of the measurements for all the experiments above as a table.
 
     if request.method == 'POST':
         with connection.cursor() as cursor:
             seqName = request.POST.get('seqName')
+
+            # list of experiment names
             expConditions = request.POST.get('expConditions')
+            expConditions = ''.join(expConditions.split()).split(',')
+
+            # list of measurement names
             expMeasures = request.POST.get('expMeasures')
+            expMeasures = ''.join(expMeasures.split()).split(',')
 
             expFound = []
 
@@ -370,14 +347,19 @@ def extraCredPart2(request):
             for experiment in cursor.fetchall():
                 # actually handle the db return
                 for condition in experiment.conditions:
-                    query = 'SELECT * FROM GUI_SpecificCondition sc WHERE sc.ID = "{}" AND sc.name IN "{}"'.format(sqlescape(condition), sqlescape(expConditions))
+                    query = 'SELECT * FROM GUI_SpecificCondition sc WHERE sc.id = "{}" AND sc.name IN "{}"'.format(sqlescape(condition), sqlescape(expConditions))
                     cursor.execute(query)
 
                     if len(cursor.fetchall()) > 0:
-                        query = 'SELECT sm.name, sm.value from Specific_Measurement sm WHERE sm.id IN "{}" AND sm.name IN "{}"'.format(sqlescape(experiment.measurements), sqlescape(expMeasures))
-                        cursor.execute(query)
+                        if expMeasures != '':
+                            query = 'SELECT sm.name, sm.value from GUI_SpecificMeasurement sm WHERE sm.id IN "{}" AND sm.name IN "{}"'.format(sqlescape(experiment.measurements), sqlescape(expMeasures))
+                            cursor.execute(query)
 
-                        expFound.append((experiment, cursor.fetchall()))
+                            expFound.append((experiment, cursor.fetchall()))
+                        else:
+                            expFound.append(experiment)
+
                         break
 
-    return HttpResponse("Form to query list of measurements")
+            context = {'ExperimentsFound': expFound, 'found': len(expFound) > 0}
+            return render(request, 'GUI/results.html', context)
