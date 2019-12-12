@@ -278,7 +278,6 @@ def queryExperiment(request):
             seqName = request.POST.get('seqName')
             if request.POST.get('expConditions') != '':
                 expConditions = request.POST.get('expConditions')
-
             # Check all of the specific conditions and find the ids for them
             expConditions = ''.join(expConditions.split())
             listSpecCond = expConditions.split(',')
@@ -323,15 +322,29 @@ def querySideBySide(request):
         with connection.cursor() as cursor:
             one = request.POST.get('itemOneChoice')
             two = request.POST.get('itemTwoChoice')
+            se1 = ''
+            se2 = ''
             # Get both experiments and convert their measurementlists into list of ints
             query = 'SELECT * FROM GUI_Experiment WHERE id = "{}" '.format(
                 sqlescape(one))
             cursor.execute(query)
             expOneFound = cursor.fetchall()
+            for a in expOneFound[0][2]:
+                query = 'SELECT * FROM GUI_SpecificCondition WHERE id = "{}" '.format(sqlescape(a))
+                cursor.execute(query)
+                s = cursor.fetchall()
+                if len(s) > 0:
+                    se1 +=s[0][1] + ':' + s[0][2] + ' '
             query = 'SELECT * FROM GUI_Experiment WHERE id = "{}" '.format(
                 sqlescape(two))
             cursor.execute(query)
             expTwoFound = cursor.fetchall()
+            for a in expTwoFound[0][2]:
+                query = 'SELECT * FROM GUI_SpecificCondition WHERE id = "{}" '.format(sqlescape(a))
+                cursor.execute(query)
+                s = cursor.fetchall()
+                if len(s) > 0:
+                    se2 +=s[0][1] + ':' + s[0][2] + ' '
             one = [int(i) for i in expOneFound[0][3].split(',')]
             two = [int(i) for i in expTwoFound[0][3].split(',')]
             one = set(one)
@@ -347,8 +360,7 @@ def querySideBySide(request):
                 if len(measurementFound) > 0:
                     mesua = measurementFound[0]
                     measurementList[mesua[1]] = mesua[2]
-
-            context = {"data": ({"es1": es1, "es2": es2, "measurements": measurementList}),
+            context = {"data": ({"es1": es1, "es2": es2,"se1":se1,"se2":se2, "measurements": measurementList}),
                        "found": True, "compare": True}
             return render(request, 'GUI/results.html', context)
 

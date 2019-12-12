@@ -41,12 +41,13 @@
     -->
     {% if found%}
         {% if not compare%}
-        <h1 style="padding-left: 20px; padding-top: 10px;">Your query for sequence: {{ data.se }} with conditions: {{ data.es }} has returned the following results:</h1>
+        <h2 style="padding-left: 20px; padding-top: 10px;">Your query for sequence: {{ data.se }} with conditions: {{ data.es }} has returned the following results:</h2>
         <div style="padding: 20px;">
             <b-table stacked responsive striped dark bordered :items="items"></b-table>
         </div>
         {% else %}
-        <h1 style="padding-left: 20px; padding-top: 10px;">Your query for sequence: {{ data.es1 }} and sequence: {{ data.es2 }} has returned the following results:</h1>
+        <h2 style="padding-left: 20px; padding-top: 10px;">Your query for sequence: {{ data.es1 }} with conditions: {{data.se1}}
+            and sequence: {{ data.es2 }} with conditions: {{data.se2}} has returned the following results:</h2>
         <div style="padding: 20px;">
             <b-table stacked responsive striped dark bordered :items="items"></b-table>
         </div>
