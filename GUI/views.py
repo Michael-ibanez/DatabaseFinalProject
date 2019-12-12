@@ -346,15 +346,17 @@ def queryExtraCred(request):
             cursor.execute(query)
             for experiment in cursor.fetchall():
                 # TODO: replace experiment.conditions with actual condition id list
-                for condition in experiment.conditions:
-                    query = 'SELECT * FROM GUI_SpecificCondition sc WHERE sc.id = "{}" AND sc.name IN "{}"'.format(sqlescape(condition), sqlescape(expConditions))
+                # expirement[1] is expected to be list of condition ids
+                for condition_id in experiment[1]:
+
+                    query = 'SELECT * FROM GUI_SpecificCondition sc WHERE sc.id = "{}" AND sc.name IN "{}"'.format(sqlescape(condition_id), sqlescape(expConditions))
                     cursor.execute(query)
 
                     if len(cursor.fetchall()) > 0:
                         if expMeasures != '':
                             # TODO: replace experiment.measurements with actual measurement id list
-                            # not doing a for loop to iterate over all experiment.measurements because want to retrieve them all in one query
-                            query = 'SELECT sm.name, sm.value from GUI_SpecificMeasurement sm WHERE sm.id IN "{}" AND sm.name IN "{}"'.format(sqlescape(experiment.measurements), sqlescape(expMeasures))
+                            # expirement[2] expected to be list of measurement ids
+                            query = 'SELECT sm.name, sm.value from GUI_SpecificMeasurement sm WHERE sm.id IN "{}" AND sm.name IN "{}"'.format(sqlescape(experiment[2]), sqlescape(expMeasures))
                             cursor.execute(query)
 
                             expFound.append((experiment, cursor.fetchall()))
