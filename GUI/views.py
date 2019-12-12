@@ -1,5 +1,4 @@
 from django.db import connection
-from django.http import HttpResponse
 from django.shortcuts import render
 from sqlescapy import sqlescape
 
@@ -382,7 +381,7 @@ def querySideBySide(request):
                 cursor.execute(query)
                 s = cursor.fetchall()
                 if len(s) > 0:
-                    se2 +=s[0][1] + ':' + s[0][2] + ' '
+                    se2 += s[0][1] + ':' + s[0][2] + ' '
             one = [int(i) for i in expOneFound[0][3].split(',')]
             two = [int(i) for i in expTwoFound[0][3].split(',')]
             one = set(one)
@@ -424,12 +423,12 @@ def queryExtraCred(request):
 
             # list of experiment names
             expConditions = request.POST.get('expConditions')
-            if expConditions:
+            if expConditions != '':
                 expConditions = ''.join(expConditions.split()).split(',')
 
             # list of measurement names
-            expMeasures = request.POST.get('expMeasures')
-            if expMeasures:
+            expMeasures = request.POST.get('expMeasure')
+            if expMeasures != '':
                 expMeasures = ''.join(expMeasures.split()).split(',')
 
             expFound = []

@@ -51,7 +51,7 @@
         </h1>
     </div>
     <p style="text-align: center;margin-left: 50px;margin-top:10px;margin-right: 50px;font-size:30px;">
-        Here you can query sequences and conditions or lists of measurements.
+        Here you can query sequences and conditions and, optionally, lists of measurements.
     </p>
 
     <form
@@ -80,6 +80,15 @@
                         required
                         class="form-control"
                         placeholder="Experiment Conditions <Condition:Value> separated by a comma"
+                />
+            </div>
+            <div class="col-md-6">
+                <input
+                        type="text"
+                        name="expMeasure"
+                        id="expMeasure"
+                        class="form-control"
+                        placeholder="Experiment Measurements <Condition:Value> separated by a comma"
                 />
             </div>
         </div>
