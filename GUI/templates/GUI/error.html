@@ -1,10 +1,55 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>ERROR</title>
+    <link
+            type="text/css"
+            rel="stylesheet"
+            href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link
+            type="text/css"
+            rel="stylesheet"
+            href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"
+    />
+    <link rel="stylesheet" href="{% static 'GUI/general.css' %}"/>
+    <link rel="shortcut icon" type="image/png" href="{% static 'GUI/favicon.ico' %}"/>
 </head>
-<body>
-$END$
+<body background="{% static 'GUI/background.gif' %}">
+<div id="app">
+    {# navbar #}
+    <b-navbar toggleable="md" type="dark" variant="info">
+        <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+        <b-navbar-brand href="/" style="font-size: 25px">
+            <img src="{% static 'GUI/bu.png' %}" alt="Baylor Biology" style="max-height: 40px">
+            Baylor Biology
+        </b-navbar-brand>
+        <b-collapse is-nav id="nav_collapse">
+            <b-navbar-nav>
+                <b-nav-item href="/insertData">Insert Data</b-nav-item>
+                <b-nav-item href="/queries">Queries</b-nav-item>
+                <b-nav-item href="/extraCred">Experiment Comparisons</b-nav-item>
+            </b-navbar-nav>
+        </b-collapse>
+    </b-navbar>
+
+    <h1 style="text-align: center;margin-top:10px;">There was an error. Please return home and try again.</h1>
+    <div style="margin: 0 auto; display: inline-block; width: 100%;text-align: center;">
+        <img src="{% static 'GUI/error-bear.png' %}" alt="Bruiser is sad :(">
+    </div>
+    <div class="col-lg-4 text-center" style="margin: 0 auto; padding-top: 30px; padding-bottom:100px;">
+        <b-button variant="info" href="/" style="width: 250px;">Home<br>
+            <img src="{% static 'GUI/home.png' %}" alt="Home" style="max-height: 100px">
+        </b-button>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+<script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+<script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+<script>
+    new Vue({el: '#app'});
+</script>
 </body>
 </html>
