@@ -2,7 +2,6 @@ from django.db import connection
 from django.http import HttpResponse
 from django.shortcuts import render
 from sqlescapy import sqlescape
-import json
 
 from .models import Sequence, Measurement, Condition, SpecificCondition, SpecificMeasurement, Experiment
 
@@ -22,24 +21,25 @@ def results(request):
     return render(request, 'GUI/results.html')
 
 
-def dataQuery(request):
-    if request.method == 'POST':
-        with connection.cursor() as cursor:
-            expConditions = ''
-            measureConditions = ''
-            seqName = request.POST.get('seqName')
-            if request.POST.get('expConditions') != '':
-                expConditions = request.POST.get('expConditions')
-            if request.POST.get('measureConditions') != '':
-                measureConditions = request.POST.get('measureConditions')
-            query = 'SELECT * FROM gui_sequence WHERE name = "{}"'.format(sqlescape(seqName))
-            cursor.execute(query)
-            condFound = cursor.fetchall()
-            context = {'found': False}
-            if len(condFound) > 0:
-                context = {'allPosts': json.dumps(dict(condFound)), 'found': True}
-                return render(request, 'GUI/results.html', context)
-            return render(request, 'GUI/results.html', context)
+#
+# def dataQuery(request):
+#     if request.method == 'POST':
+#         with connection.cursor() as cursor:
+#             expConditions = ''
+#             measureConditions = ''
+#             seqName = request.POST.get('seqName')
+#             if request.POST.get('expConditions') != '':
+#                 expConditions = request.POST.get('expConditions')
+#             if request.POST.get('measureConditions') != '':
+#                 measureConditions = request.POST.get('measureConditions')
+#             query = 'SELECT * FROM gui_sequence WHERE name = "{}"'.format(sqlescape(seqName))
+#             cursor.execute(query)
+#             condFound = cursor.fetchall()
+#             context = {'found': False}
+#             if len(condFound) > 0:
+#                 context = {'allPosts': json.dumps(dict(condFound)), 'found': True}
+#                 return render(request, 'GUI/results.html', context)
+#             return render(request, 'GUI/results.html', context)
 
 
 # Form for input Needs a condition(Name, domain, and possible values)
@@ -277,14 +277,16 @@ def queryExperiment(request):
             list = []
             for specCondition in listSpecCond:
                 item = specCondition.split(':')
-                query = 'SELECT * FROM GUI_SpecificCondition WHERE name = "{}" AND value = "{}"'.format(sqlescape(item[0]),sqlescape(item[1]) )
+                query = 'SELECT * FROM GUI_SpecificCondition WHERE name = "{}" AND value = "{}"'.format(
+                    sqlescape(item[0]), sqlescape(item[1]))
                 cursor.execute(query)
                 condFound = cursor.fetchall()
                 for a in condFound:
                     list.append(a[0])
             list.sort()
             newList = str(list).strip('[]')
-            query = 'SELECT * FROM GUI_Experiment WHERE sequence = "{}" AND Conditions = "{}"'.format(sqlescape(seqName),sqlescape(newList))
+            query = 'SELECT * FROM GUI_Experiment WHERE sequence = "{}" AND Conditions = "{}"'.format(
+                sqlescape(seqName), sqlescape(newList))
             cursor.execute(query)
             expFound = cursor.fetchall()
             context = {'found': False}
@@ -301,7 +303,8 @@ def queryExperiment(request):
                         mesua = measurementFound[0]
                         strToApp = "Measurement " + mesua[1] + " has a value of : " + mesua[2]
                         measurementList.append(strToApp)
-                context = {'ExperimentFound': expFound,'es':es,'se':se, 'measurements':measurementList, 'found': True}
+                context = {'ExperimentFound': expFound, 'es': es, 'se': se, 'measurements': measurementList,
+                           'found': True}
                 return render(request, 'GUI/results.html', context)
             return render(request, 'GUI/results.html', context)
 

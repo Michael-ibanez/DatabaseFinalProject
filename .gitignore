@@ -9,4 +9,4 @@ compile_commands.json
 CTestTestfile.cmake
 .pycache
 _pycache_
-.pyc
+*.pyc
