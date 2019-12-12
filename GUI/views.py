@@ -292,7 +292,7 @@ def queryExperiment(request):
             if len(expFound) > 0:
                 se = request.POST.get('seqName')
                 es = request.POST.get('expConditions')
-                measurementList = []
+                measurementList = {}
                 myList = expFound[0][3].split(', ')
                 for a in myList:
                     query = 'SELECT * FROM GUI_SpecificMeasurement WHERE id = "{}"'.format(sqlescape(a))
@@ -300,8 +300,7 @@ def queryExperiment(request):
                     measurementFound = cursor.fetchall()
                     if len(measurementFound) > 0:
                         mesua = measurementFound[0]
-                        strToApp = "Measurement " + mesua[1] + " has a value of : " + mesua[2]
-                        measurementList.append(strToApp)
+                        measurementList[mesua[1]] = mesua[2]
                 context = {"data": ({"ExperimentFound": expFound, "es": es, "se": se, "measurements": measurementList}),
                            "found": True}
                 print(context)

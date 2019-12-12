@@ -40,18 +40,10 @@
     https://bootstrap-vue.js.org/docs/components/table/
     -->
     {% if found %}
-        <h1 style="padding-left: 20px; padding-top: 10px;">Your query has returned the following results:</h1>
+        <h1 style="padding-left: 20px; padding-top: 10px;">Your query for sequence: {{ data.se }} with conditions: {{ data.es }} has returned the following results:</h1>
         <div style="padding: 20px;">
-            <b-table responsive striped dark bordered hover :items="items"></b-table>
+            <b-table stacked responsive striped dark bordered :items="items"></b-table>
         </div>
-        {{ data }}
-        <ul>
-            <h3> For Sequence : {{ data.se }} </h3>
-            <h3> With Conditions : {{ data.es }} </h3>
-            {% for post in data.measurements %}
-                <li>{{ post }}</li>
-            {% endfor %}
-        </ul>
 
     {% else %}
         <h1 style="text-align: center">There were no results to that query. Please try again.</h1>
@@ -79,7 +71,7 @@
     new Vue({
         data() {
             return {
-                items: [ {% autoescape off %} {{ data }} {% endautoescape %} ]
+                items: [ {% autoescape off %} {{ data.measurements }} {% endautoescape %} ]
             };
         }
     }).$mount("#app");
