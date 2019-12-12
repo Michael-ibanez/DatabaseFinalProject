@@ -388,11 +388,13 @@ def queryExtraCred(request):
 
             # list of experiment names
             expConditions = request.POST.get('expConditions')
-            expConditions = ''.join(expConditions.split()).split(',')
+            if expConditions:
+                expConditions = ''.join(expConditions.split()).split(',')
 
             # list of measurement names
             expMeasures = request.POST.get('expMeasures')
-            expMeasures = ''.join(expMeasures.split()).split(',')
+            if expMeasures:
+                expMeasures = ''.join(expMeasures.split()).split(',')
 
             expFound = []
 
