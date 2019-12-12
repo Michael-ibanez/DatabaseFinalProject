@@ -345,13 +345,14 @@ def queryExtraCred(request):
             query = 'SELECT * FROM GUI_Experiment e WHERE e.sequence = "{}"'.format(sqlescape(seqName))
             cursor.execute(query)
             for experiment in cursor.fetchall():
-                # actually handle the db return
+                # TODO: replace experiment.conditions with actual condition id list
                 for condition in experiment.conditions:
                     query = 'SELECT * FROM GUI_SpecificCondition sc WHERE sc.id = "{}" AND sc.name IN "{}"'.format(sqlescape(condition), sqlescape(expConditions))
                     cursor.execute(query)
 
                     if len(cursor.fetchall()) > 0:
                         if expMeasures != '':
+                            # TODO: replace experiment.measurements with actual measurement id list
                             query = 'SELECT sm.name, sm.value from GUI_SpecificMeasurement sm WHERE sm.id IN "{}" AND sm.name IN "{}"'.format(sqlescape(experiment.measurements), sqlescape(expMeasures))
                             cursor.execute(query)
 
