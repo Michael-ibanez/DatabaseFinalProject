@@ -13,7 +13,6 @@ urlpatterns = [
     path('dataInputSequence', views.insertCSV, name='dataInputSequence'),
     path('dataInputExperiment', views.dataInputExperiment, name='dataInputExperiment'),
     path('invalidInsert', views.invalidInsert, name='invalidInsert'),
-    path('results', views.results, name='results'),
 
     path('queries', views.queries, name='queries'),
     path('queryExperiment', views.queryExperiment, name='queryExperiment'),
@@ -21,5 +20,5 @@ urlpatterns = [
 
     path('extraCred', views.extraCred, name='extraCred'),
     path('queryExtraCred', views.queryExtraCred, name='queryExtraCred'),
-    path('error', views.error, name='error')
+
 ]
