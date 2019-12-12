@@ -44,10 +44,11 @@
         <div style="padding: 20px;">
             <b-table responsive striped dark bordered hover :items="items"></b-table>
         </div>
+        {{ data }}
         <ul>
-            <h3> For Sequence : {{se}} </h3>
-            <h3> With Conditons : {{es}} </h3>
-            {% for post in measurements %}
+            <h3> For Sequence : {{ data.se }} </h3>
+            <h3> With Conditions : {{ data.es }} </h3>
+            {% for post in data.measurements %}
                 <li>{{ post }}</li>
             {% endfor %}
         </ul>
@@ -78,16 +79,10 @@
     new Vue({
         data() {
             return {
-                items: [
-                    {age: 40, first_name: 'Dickerson', last_name: 'Macdonald'},
-                    {age: 21, first_name: 'Larsen', last_name: 'Shaw'},
-                    {age: 89, first_name: 'Geneva', last_name: 'Wilson'},
-                    {age: 38, first_name: 'Jami', last_name: 'Carney'}
-                ]
+                items: [ {% autoescape off %} {{ data }} {% endautoescape %} ]
             };
         }
     }).$mount("#app");
-
 </script>
 </body>
 </html>

@@ -303,8 +303,9 @@ def queryExperiment(request):
                         mesua = measurementFound[0]
                         strToApp = "Measurement " + mesua[1] + " has a value of : " + mesua[2]
                         measurementList.append(strToApp)
-                context = {'ExperimentFound': expFound, 'es': es, 'se': se, 'measurements': measurementList,
-                           'found': True}
+                context = {"data": ({"ExperimentFound": expFound, "es": es, "se": se, "measurements": measurementList}),
+                           "found": True}
+                print(context)
                 return render(request, 'GUI/results.html', context)
             return render(request, 'GUI/results.html', context)
 
