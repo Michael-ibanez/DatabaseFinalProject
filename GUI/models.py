@@ -4,6 +4,7 @@ from django.db import models
 ### Each of these need to be inserted on their own(Listed by their names)
 class Sequence(models.Model):
     name = models.CharField(max_length=128, unique=True, primary_key=True)
+    file = models.CharField(max_length=128)
     info = models.CharField(max_length=128)
 
     def __unicode__(self):
