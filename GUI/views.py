@@ -135,9 +135,9 @@ def dataInputExperiment(request):
                     conFound = cursor.fetchall()
                     if len(seqFound) == 0:
                         flag = 0
+                flag2 = 1
                 if flag:
                     meaList = measList.split(',')
-                    flag2 = 1
                     for b in meaList:
                         bb = b.split(':')
                         sql_search_query = ("SELECT * FROM GUI_Measurement WHERE name=%s")
@@ -150,8 +150,10 @@ def dataInputExperiment(request):
                     # insert all specific conditions and specific measurements then insert the experiment
                     # only if they dont exist, else just add the ids of those found
                     # TODO: !!!!!!!!
+                    print("Condition : ", conList)
                     for a in conList:
                         aa = a.split(':')
+                        print(aa)
                         query = 'SELECT * FROM GUI_SpecificCondition WHERE name="{}" AND value="{}"'.format(sqlescape(aa[0]),sqlescape(aa[1]))
                         cursor.execute(query)
                         specCondFounda = cursor.fetchall()
@@ -160,18 +162,20 @@ def dataInputExperiment(request):
                             newSpecCon.save()
                             conditionsList.append(newSpecCon.id)
                         else:
-                            conditionsList.append(specCondFound[0][0])
+                            conditionsList.append(specCondFounda[0][0])
+                    print("Measurement : ", meaList)
                     for b in meaList:
                         bb = b.split(':')
+                        print(bb)
                         query = 'SELECT * FROM GUI_SpecificMeasurement WHERE name="{}" AND value="{}"'.format(sqlescape(bb[0]),sqlescape(bb[1]))
                         cursor.execute(query)
                         specMeasuFound = cursor.fetchall()
                         if len(specMeasuFound) == 0:
                             newSpecMea = SpecificMeasurement(name=sqlescape(bb[0]), value=sqlescape(bb[1]))
                             newSpecMea.save()
-                            conditionsList.append(newSpecMea.id)
+                            measurementsList.append(newSpecMea.id)
                         else:
-                            conditionsList.append(specMeasuFound[0][0])
+                            measurementsList.append(specMeasuFound[0][0])
                     SpecCond = str(conditionsList).strip('[]')
                     SpecMeau = str(measurementsList).strip('[]')
                     query = 'SELECT * FROM GUI_Experiment WHERE sequence="{}" AND conditions="{}"'.format(sqlescape(seqName),sqlescape(SpecCond))
