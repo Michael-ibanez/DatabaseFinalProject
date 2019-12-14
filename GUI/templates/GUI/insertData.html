@@ -1,7 +1,6 @@
 {% load static %}
 <html lang="en">
-
-<!--
+  <!--
 <link
   rel="stylesheet"
   href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
@@ -10,314 +9,337 @@
   rel="stylesheet"
   href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"
 />-->
-<head>
+  <head>
     <title>Insert Data</title>
     <link
-            type="text/css"
-            rel="stylesheet"
-            href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css"
+      type="text/css"
+      rel="stylesheet"
+      href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css"
     />
     <link
-            type="text/css"
-            rel="stylesheet"
-            href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"
+      type="text/css"
+      rel="stylesheet"
+      href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"
     />
-    <link type="text/css" rel="stylesheet" href="{% static 'GUI/general.css' %}"/>
-    <link rel="shortcut icon" type="image/png" href="{% static 'GUI/favicon.ico' %}"/>
-</head>
-<body background="{% static 'GUI/background.gif' %}">
-<div id="app">
-    {# navbar #}
-    <b-navbar toggleable="md" type="dark" variant="info">
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="{% static 'GUI/general.css' %}"
+    />
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="{% static 'GUI/favicon.ico' %}"
+    />
+  </head>
+  <body background="{% static 'GUI/background.gif' %}">
+    <div id="app">
+      {# navbar #}
+      <b-navbar toggleable="md" type="dark" variant="info">
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
         <b-navbar-brand href="/" style="font-size: 25px">
-            <img src="{% static 'GUI/bu.png' %}" alt="Baylor Biology" style="max-height: 40px">
-            Baylor Biology
+          <img
+            src="{% static 'GUI/bu.png' %}"
+            alt="Baylor Biology"
+            style="max-height: 40px"
+          />
+          Baylor Biology
         </b-navbar-brand>
         <b-collapse is-nav id="nav_collapse">
-            <b-navbar-nav>
-                <b-nav-item href="/insertData" disabled>Insert Data</b-nav-item>
-                <b-nav-item href="/queries">Queries</b-nav-item>
-                <b-nav-item href="/extraCred">Experiment Comparisons</b-nav-item>
-            </b-navbar-nav>
+          <b-navbar-nav>
+            <b-nav-item href="/insertData" disabled>Insert Data</b-nav-item>
+            <b-nav-item href="/queries">Queries</b-nav-item>
+            <b-nav-item href="/extraCred">Experiment Comparisons</b-nav-item>
+          </b-navbar-nav>
         </b-collapse>
-    </b-navbar>
+      </b-navbar>
 
-
-    <div>
+      <div>
         <h1 style="text-align: center;margin-top:10px;">
-            Input Data
+          Input Data
         </h1>
-    </div>
-    <p style="text-align: center;margin-left: 50px;margin-top:10px;margin-right: 50px;font-size:30px;">
+      </div>
+      <p
+        style="text-align: center;margin-left: 50px;margin-top:10px;margin-right: 50px;font-size:30px;"
+      >
         Here you can insert data to fill the database.
-    </p>
-    <div class="row">
+      </p>
+      <div class="row">
         <div class="col-lg-4">
-            <div class="insert-title">Insert CSV file</div>
-            <form
-                    action="{% url 'GUI:insertCSV' %}"
-                    method="post"
-                    enctype="multipart/form-data"
-                    class="form-horizontal"
-            >
-                {% csrf_token %}
-                <div class="form-group">
-                    <div class="col-md-8">
-                        <input
-                                type="file"
-                                name="csv_file"
-                                id="csv_file"
-                                required
-                                class="form-control"
-                        />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div
-                            class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3"
-                            style="margin-bottom:10px;"
-                    >
-                        <button class="btn btn-primary">
-              <span
-                      class="glyphicon glyphicon-upload"
-                      style="margin-right:5px;"
-              ></span
-              >Submit
-                        </button>
-                    </div>
-                </div>
-            </form>
+          <div class="insert-title">Insert CSV file</div>
+          <form
+            action="{% url 'GUI:insertCSV' %}"
+            method="post"
+            enctype="multipart/form-data"
+            class="form-horizontal"
+          >
+            {% csrf_token %}
+            <div class="form-group">
+              <div class="col-md-8">
+                <input
+                  type="file"
+                  name="csv_file"
+                  id="csv_file"
+                  required
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <div
+                class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3"
+                style="margin-bottom:10px;"
+              >
+                <button class="btn btn-primary">
+                  <span
+                    class="glyphicon glyphicon-upload"
+                    style="margin-right:5px;"
+                  ></span
+                  >Submit
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-5 insert-title">Insert condition
-            <form
-                    action="{% url 'GUI:dataInputCondition' %}"
-                    method="post"
-                    enctype="multipart/form-data"
-                    class="form-horizontal"
-            >
-                {% csrf_token %}
-                <div class="form-group">
-                    <div class="col-md-6">
-                        <input
-                                type="text"
-                                name="name"
-                                id="name"
-                                required
-                                class="form-control"
-                                placeholder="Name"
-                        />
-                    </div>
-                    <div class="col-md-6">
-                        <input
-                                type="text"
-                                name="domain"
-                                id="domain"
-                                required
-                                class="form-control"
-                                placeholder="Domain"
-                        />
-                    </div>
-                    <div class="col-md-6">
-                        <input
-                                type="text"
-                                name="possValues"
-                                id="possValues"
-                                required
-                                class="form-control"
-                                placeholder="Possible Values"
-                        />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div
-                            class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3"
-                            style="margin-bottom:10px;"
-                    >
-                        <button class="btn btn-primary">
-              <span
-                      class="glyphicon glyphicon-upload"
-                      style="margin-right:5px;"
-              ></span
-              >Submit
-                        </button>
-                    </div>
-                </div>
-            </form>
+      </div>
+      <div class="row">
+        <div class="col-lg-5 insert-title">
+          Insert condition
+          <form
+            action="{% url 'GUI:dataInputCondition' %}"
+            method="post"
+            enctype="multipart/form-data"
+            class="form-horizontal"
+          >
+            {% csrf_token %}
+            <div class="form-group">
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  required
+                  class="form-control"
+                  placeholder="Name"
+                />
+              </div>
+              <div class="col-md-6" style="font-size:13pt;">
+                  <select name="domain" >
+                    <option selected="selected" disabled>Domain:</option>
+                    <option value="Int">Int</option>
+                    <option value="Float">Float</option>
+                    <option value="String">String</option>
+                    <option value="Boolean">Boolean</option>
+                  </select>
+              </div>
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  name="possValues"
+                  id="possValues"
+                  required
+                  class="form-control"
+                  placeholder="Possible Values"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <div
+                class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3"
+                style="margin-bottom:10px;"
+              >
+                <button class="btn btn-primary">
+                  <span
+                    class="glyphicon glyphicon-upload"
+                    style="margin-right:5px;"
+                  ></span
+                  >Submit
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-        <div class="col-lg-5 insert-title">Insert measurement
-            <form
-                    action="{% url 'GUI:dataInputMeasurement' %}"
-                    method="post"
-                    enctype="multipart/form-data"
-                    class="form-horizontal"
-            >
-                {% csrf_token %}
-                <div class="form-group">
-                    <div class="col-md-6">
-                        <input
-                                type="text"
-                                name="name"
-                                id="name"
-                                required
-                                class="form-control"
-                                placeholder="Name"
-                        />
-                    </div>
-                    <div class="col-md-6">
-                        <input
-                                type="text"
-                                name="domain"
-                                id="domain"
-                                required
-                                class="form-control"
-                                placeholder="Domain"
-                        />
-                    </div>
-                    <div class="col-md-6">
-                        <input
-                                type="text"
-                                name="possValues"
-                                id="possValues"
-                                required
-                                class="form-control"
-                                placeholder="Possible Values"
-                        />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div
-                            class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3"
-                            style="margin-bottom:10px;"
-                    >
-                        <button class="btn btn-primary">
-              <span
-                      class="glyphicon glyphicon-upload"
-                      style="margin-right:5px;"
-              ></span
-              >Submit
-                        </button>
-                    </div>
-                </div>
-            </form>
+        <div class="col-lg-5 insert-title">
+          Insert measurement
+          <form
+            action="{% url 'GUI:dataInputMeasurement' %}"
+            method="post"
+            enctype="multipart/form-data"
+            class="form-horizontal"
+          >
+            {% csrf_token %}
+            <div class="form-group">
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  required
+                  class="form-control"
+                  placeholder="Name"
+                />
+              </div>
+              <div class="col-md-6" style="font-size:13pt;">
+                <select name="domain" >
+                  <option selected="selected" disabled>Domain:</option>
+                  <option value="Int">Int</option>
+                  <option value="Float">Float</option>
+                  <option value="String">String</option>
+                  <option value="Boolean">Boolean</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  name="possValues"
+                  id="possValues"
+                  required
+                  class="form-control"
+                  placeholder="Possible Values"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <div
+                class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3"
+                style="margin-bottom:10px;"
+              >
+                <button class="btn btn-primary">
+                  <span
+                    class="glyphicon glyphicon-upload"
+                    style="margin-right:5px;"
+                  ></span
+                  >Submit
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-        <div class="col-lg-5 insert-title">Insert sequence and information
-            <form
-                    action="{% url 'GUI:dataInputSequence' %}"
-                    method="post"
-                    enctype="multipart/form-data"
-                    class="form-horizontal"
-            >
-                {% csrf_token %}
-                <div class="form-group">
-                    <div class="col-md-6">
-                        <input
-                                type="text"
-                                name="name"
-                                id="name"
-                                required
-                                class="form-control"
-                                placeholder="Name"
-                        />
-                    </div>
-                    <div class="col-md-6">
-                        <input
-                                type="text"
-                                name="info"
-                                id="info"
-                                required
-                                class="form-control"
-                                placeholder="Information"
-                        />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div
-                            class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3"
-                            style="margin-bottom:10px;"
-                    >
-                        <button class="btn btn-primary">
-              <span
-                      class="glyphicon glyphicon-upload"
-                      style="margin-right:5px;"
-              ></span
-              >Submit
-                        </button>
-                    </div>
-                </div>
-            </form>
+        <div class="col-lg-5 insert-title">
+          Insert sequence and information
+          <form
+            action="{% url 'GUI:dataInputSequence' %}"
+            method="post"
+            enctype="multipart/form-data"
+            class="form-horizontal"
+          >
+            {% csrf_token %}
+            <div class="form-group">
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  required
+                  class="form-control"
+                  placeholder="Name"
+                />
+              </div>
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  name="info"
+                  id="info"
+                  required
+                  class="form-control"
+                  placeholder="Information"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <div
+                class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3"
+                style="margin-bottom:10px;"
+              >
+                <button class="btn btn-primary">
+                  <span
+                    class="glyphicon glyphicon-upload"
+                    style="margin-right:5px;"
+                  ></span
+                  >Submit
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-        <div class="col-lg-5 insert-title"> Insert experiment with condition and results
-            <form
-                    action="{% url 'GUI:dataInputExperiment' %}"
-                    method="post"
-                    enctype="multipart/form-data"
-                    class="form-horizontal"
-            >
-                {% csrf_token %}
-                <div class="form-group">
-                    <div class="col-md-6">
-                        <input
-                                type="text"
-                                name="name"
-                                id="name"
-                                required
-                                class="form-control"
-                                placeholder="Sequence Name"
-                        />
-                    </div>
-                    <div class="col-md-6">
-                        <input
-                                type="text"
-                                name="conditions"
-                                id="conditions"
-                                required="True"
-                                class="form-control"
-                                placeholder="Conditions"
-                        />
-                    </div>
-                    <div class="col-md-6">
-                        <input
-                                type="text"
-                                name="measurements"
-                                id="measurements"
-                                required
-                                class="form-control"
-                                placeholder="Measurements"
-                        />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div
-                            class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3"
-                            style="margin-bottom:10px;"
-                    >
-                        <button class="btn btn-primary">
-                              <span
-                                      class="glyphicon glyphicon-upload"
-                                      style="margin-right:5px;"
-                              ></span>
-                            Submit
-                        </button>
-                    </div>
-                </div>
-            </form>
+        <div class="col-lg-5 insert-title">
+          Insert experiment with condition and results
+          <form
+            action="{% url 'GUI:dataInputExperiment' %}"
+            method="post"
+            enctype="multipart/form-data"
+            class="form-horizontal"
+          >
+            {% csrf_token %}
+            <div class="form-group">
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  required
+                  class="form-control"
+                  placeholder="Sequence Name"
+                />
+              </div>
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  name="conditions"
+                  id="conditions"
+                  required="True"
+                  class="form-control"
+                  placeholder="Conditions"
+                />
+              </div>
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  name="measurements"
+                  id="measurements"
+                  required
+                  class="form-control"
+                  placeholder="Measurements"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <div
+                class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3"
+                style="margin-bottom:10px;"
+              >
+                <button class="btn btn-primary">
+                  <span
+                    class="glyphicon glyphicon-upload"
+                    style="margin-right:5px;"
+                  ></span>
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-    </div>
-    <div class="col-lg-4 text-center" style="margin: 0 auto; padding-top: 30px; padding-bottom:100px;">
-        <b-button variant="info" href="/" style="width: 250px;">Home<br>
-            <img src="{% static 'GUI/home.png' %}" alt="Home" style="max-height: 100px">
+      </div>
+      <div
+        class="col-lg-4 text-center"
+        style="margin: 0 auto; padding-top: 30px; padding-bottom:100px;"
+      >
+        <b-button variant="info" href="/" style="width: 250px;"
+          >Home<br />
+          <img
+            src="{% static 'GUI/home.png' %}"
+            alt="Home"
+            style="max-height: 100px"
+          />
         </b-button>
-    </div>
+      </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
-    <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
-    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
-    <script>
-        new Vue({el: '#app'});
-    </script>
-</div>
-</body>
+      <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
+      <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+      <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+      <script>
+        new Vue({ el: "#app" });
+      </script>
+    </div>
+  </body>
 </html>
