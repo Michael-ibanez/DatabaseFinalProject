@@ -125,7 +125,7 @@ def dataInputExperiment(request):
             seqFound = cursor.fetchall()
             if len(seqFound) > 0:
                 # For each condition check if it exists
-                conList = condList.split(', ')
+                conList = condList.split(',')
                 flag = 1
                 for a in conList:
                     aa = a.split(':')
@@ -136,7 +136,7 @@ def dataInputExperiment(request):
                     if len(seqFound) == 0:
                         flag = 0
                 if flag:
-                    meaList = measList.split(', ')
+                    meaList = measList.split(',')
                     flag2 = 1
                     for b in meaList:
                         bb = b.split(':')
