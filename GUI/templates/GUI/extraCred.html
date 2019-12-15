@@ -22,6 +22,8 @@
             href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"
     />
     <link rel="shortcut icon" type="image/png" href="{% static 'GUI/favicon.ico' %}"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+
 
 </head>
 <link rel="stylesheet" href="{% static 'GUI/general.css' %}"/>
@@ -62,34 +64,26 @@
     >
         {% csrf_token %}
         <div>
-            <div class="col-md-6">
-                <input
-                        type="text"
-                        name="seqName"
-                        id="seqName"
-                        required
-                        class="form-control"
-                        placeholder="Sequence Names <Name>, <Name>, ..."
-                />
+            <div class="col-md-12">
+                <select name="seqName" style="">
+                    {% for entry in data.choices %}
+                        <option value={{ entry.name }}>Sequence {{ entry.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="col-md-6">
-                <input
-                        type="text"
-                        name="expConditions"
-                        id="expConditions"
-                        required
-                        class="form-control"
-                        placeholder="Experiment Conditions <Condition:Value> separated by a comma"
-                />
+                <select name="expConditions" class="select_field_class" multiple="multiple" style="color:black;margin-bottom:17.5px;margin-top:10px;">
+                    {% for entry in data.choices2 %}
+                        <option value={{ entry.name }}>Condition {{ entry.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="col-md-6">
-                <input
-                        type="text"
-                        name="expMeasure"
-                        id="expMeasure"
-                        class="form-control"
-                        placeholder="Experiment Measurements <Condition:Value> separated by a comma"
-                />
+                <select name="expMeasure" class="select_field_class" multiple="multiple" style="color:black;margin-bottom:17.5px;margin-top:10px;">
+                    {% for entry in data.choices3 %}
+                        <option value={{ entry.name }}>Measurement {{ entry.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
         <div class="form-group">
