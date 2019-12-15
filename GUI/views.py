@@ -371,44 +371,72 @@ def querySideBySide(request):
             two = request.POST.get('itemTwoChoice')
             se1 = ''
             se2 = ''
+            condListOne = []
+            condListTwo = []
             measurementList = {}
-            measurementList3 = {}
+            measurementList2 = {}
             # Get both experiments and convert their measurementlists into list of ints
+            # Get first experiment conditions and then measurements
             query = 'SELECT * FROM GUI_Experiment WHERE id = "{}" '.format(
                 sqlescape(one))
             cursor.execute(query)
             expOneFound = cursor.fetchall()
+            for a in expOneFound[0][3]:
+                query = 'SELECT * FROM GUI_SpecificMeasurement WHERE id = "{}" '.format(sqlescape(a))
+                cursor.execute(query)
+                s = cursor.fetchall()
+                if len(s) > 0:
+                    condListOne.append(s[0][1])
             for a in expOneFound[0][2]:
                 query = 'SELECT * FROM GUI_SpecificCondition WHERE id = "{}" '.format(sqlescape(a))
                 cursor.execute(query)
                 s = cursor.fetchall()
                 if len(s) > 0:
-                    se1 +=s[0][1] + ':' + s[0][2] + ' '
+                    se1 += str(s[0][1]) + ':' + str(s[0][2]) + ' '
+
+            # Get second experiment conditions and then measurements
             query = 'SELECT * FROM GUI_Experiment WHERE id = "{}" '.format(sqlescape(two))
             cursor.execute(query)
             expTwoFound = cursor.fetchall()
+            for a in expTwoFound[0][3]:
+                query = 'SELECT * FROM GUI_SpecificMeasurement WHERE id = "{}" '.format(sqlescape(a))
+                cursor.execute(query)
+                s = cursor.fetchall()
+                if len(s) > 0:
+                    condListTwo.append(s[0][1])
             for a in expTwoFound[0][2]:
                 query = 'SELECT * FROM GUI_SpecificCondition WHERE id = "{}" '.format(sqlescape(a))
                 cursor.execute(query)
                 s = cursor.fetchall()
                 if len(s) > 0:
-                    se2 += s[0][1] + ':' + s[0][2] + ' '
-            one = [int(i) for i in expOneFound[0][3].split(',')]
-            two = [int(i) for i in expTwoFound[0][3].split(',')]
-            one = set(one)
-            two = set(two)
+                    se2 += str(s[0][1]) + ':' + str(s[0][2]) + ' '
+
+
             es1 = expOneFound[0][1]
             es2 = expTwoFound[0][1]
-            similarSet = one & two
+            condListOneA = set(condListOne)
+            condListTwoA = set(condListTwo)
+            similarSet = condListOneA & condListTwoA
+
             for a in similarSet:
-                query = 'SELECT * FROM GUI_SpecificMeasurement WHERE id = "{}"'.format(sqlescape(str(a)))
-                cursor.execute(query)
-                measurementFound = cursor.fetchall()
-                if len(measurementFound) > 0:
-                    mesua = measurementFound[0]
-                    measurementList[mesua[1]] = mesua[2]
-            measurementList2 = measurementList
-            context = {"data": ({"es1": es1, "es2": es2,"se1":se1,"se2":se2, "measurements": measurementList, "measurement2": measurementList2}),
+                for b in expOneFound[0][3]:
+                    query = 'SELECT * FROM GUI_SpecificMeasurement WHERE id = "{}"'.format(sqlescape(str(b)))
+                    cursor.execute(query)
+                    measurementFound = cursor.fetchall()
+                    if len(measurementFound) > 0:
+                        if a == measurementFound[0][1]:
+                            mesua = measurementFound[0]
+                            measurementList[mesua[1]] = mesua[2]
+            for a in similarSet:
+                for b in expTwoFound[0][3]:
+                    query = 'SELECT * FROM GUI_SpecificMeasurement WHERE id = "{}"'.format(sqlescape(str(b)))
+                    cursor.execute(query)
+                    measurementFound = cursor.fetchall()
+                    if len(measurementFound) > 0:
+                        if a == measurementFound[0][1]:
+                            mesua = measurementFound[0]
+                            measurementList2[mesua[1]] = mesua[2]
+            context = {"data": ({"es1": es1, "es2": es2,"se1":se1,"se2":se2, "measurements": measurementList, "measurements2": measurementList2}),
                        "found": True, "compare": True}
             return render(request, 'GUI/results.html', context)
 
