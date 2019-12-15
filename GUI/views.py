@@ -24,27 +24,6 @@ def results(request):
     return render(request, 'GUI/results.html')
 
 
-#
-# def dataQuery(request):
-#     if request.method == 'POST':
-#         with connection.cursor() as cursor:
-#             expConditions = ''
-#             measureConditions = ''
-#             seqName = request.POST.get('seqName')
-#             if request.POST.get('expConditions') != '':
-#                 expConditions = request.POST.get('expConditions')
-#             if request.POST.get('measureConditions') != '':
-#                 measureConditions = request.POST.get('measureConditions')
-#             query = 'SELECT * FROM gui_sequence WHERE name = "{}"'.format(sqlescape(seqName))
-#             cursor.execute(query)
-#             condFound = cursor.fetchall()
-#             context = {'found': False}
-#             if len(condFound) > 0:
-#                 context = {'allPosts': json.dumps(dict(condFound)), 'found': True}
-#                 return render(request, 'GUI/results.html', context)
-#             return render(request, 'GUI/results.html', context)
-
-
 # Form for input Needs a condition(Name, domain, and possible values)
 def dataInputCondition(request):
     if request.method == 'POST':
@@ -95,7 +74,7 @@ def dataInputSequence(request):
         with connection.cursor() as cursor:
             seqName = request.POST.get('name')
             seqInfo = request.POST.get('info')
-            seqFile = request.post.get('fileName')
+            seqFile = request.POST.get('fileName')
             if len(seqInfo) == 0:
                 seqInfo = "None"
             if len(seqFile) == 0:
@@ -392,6 +371,8 @@ def querySideBySide(request):
             two = request.POST.get('itemTwoChoice')
             se1 = ''
             se2 = ''
+            measurementList = {}
+            measurementList3 = {}
             # Get both experiments and convert their measurementlists into list of ints
             query = 'SELECT * FROM GUI_Experiment WHERE id = "{}" '.format(
                 sqlescape(one))
@@ -403,8 +384,7 @@ def querySideBySide(request):
                 s = cursor.fetchall()
                 if len(s) > 0:
                     se1 +=s[0][1] + ':' + s[0][2] + ' '
-            query = 'SELECT * FROM GUI_Experiment WHERE id = "{}" '.format(
-                sqlescape(two))
+            query = 'SELECT * FROM GUI_Experiment WHERE id = "{}" '.format(sqlescape(two))
             cursor.execute(query)
             expTwoFound = cursor.fetchall()
             for a in expTwoFound[0][2]:
@@ -420,7 +400,6 @@ def querySideBySide(request):
             es1 = expOneFound[0][1]
             es2 = expTwoFound[0][1]
             similarSet = one & two
-            measurementList = {}
             for a in similarSet:
                 query = 'SELECT * FROM GUI_SpecificMeasurement WHERE id = "{}"'.format(sqlescape(str(a)))
                 cursor.execute(query)
@@ -428,7 +407,8 @@ def querySideBySide(request):
                 if len(measurementFound) > 0:
                     mesua = measurementFound[0]
                     measurementList[mesua[1]] = mesua[2]
-            context = {"data": ({"es1": es1, "es2": es2,"se1":se1,"se2":se2, "measurements": measurementList}),
+            measurementList2 = measurementList
+            context = {"data": ({"es1": es1, "es2": es2,"se1":se1,"se2":se2, "measurements": measurementList, "measurement2": measurementList2}),
                        "found": True, "compare": True}
             return render(request, 'GUI/results.html', context)
 
