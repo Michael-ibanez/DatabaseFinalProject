@@ -323,9 +323,13 @@ def queries(request):
         query = 'SELECT * FROM GUI_Experiment'
         cursor.execute(query)
         expFound = cursor.fetchall()
-        dataList = {}
-        for exp in expFound:
-            dataList[exp[0]] = str(exp[0]) + " " + str(exp[1]) + " conditon ids: "+ str(exp[2])
+        #dataList = {}
+        count = 0
+        #for exp in expFound:
+            #dataList[count] = tuple((count, str(exp[0]) + " " + str(exp[1]) + " conditon ids: "+ str(exp[2])))
+            #count += 1
+        dataList = Experiment.objects.all().order_by('id')
+        print(Experiment.objects.all().order_by('id'))
         context = {'data': ({"choices": dataList})}
         return render(request, 'GUI/queries.html', context)
 
