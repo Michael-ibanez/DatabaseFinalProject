@@ -462,42 +462,25 @@ def queryExtraCred(request):
         with connection.cursor() as cursor:
             seqName = request.POST.get('seqName')
 
-            # list of experiment names
-            expConditions = request.POST.get('expConditions')
-            if expConditions != '':
-                expConditions = ''.join(expConditions.split()).split(',')
+            expConditions = request.POST.getlist('expConditions')
 
-            # list of measurement names
-            expMeasures = request.POST.get('expMeasure')
-            if expMeasures != '':
-                expMeasures = ''.join(expMeasures.split()).split(',')
+            expMeasures = request.POST.getlist('expMeasure')
 
-            expFound = []
+            expFound = {}
 
-            query = 'SELECT * FROM GUI_Experiment e WHERE e.sequence = "{}"'.format(sqlescape(seqName))
+            query = 'SELECT * FROM GUI_Experiment WHERE Sequence = "{}"'.format(sqlescape(seqName))
             cursor.execute(query)
             for experiment in cursor.fetchall():
-                # TODO: replace experiment.conditions with actual condition id list
-                # expirement[1] is expected to be list of condition ids
-                for condition_id in experiment[1]:
-
-                    query = 'SELECT * FROM GUI_SpecificCondition sc WHERE sc.id = "{}" AND sc.name IN "{}"'.format(
-                        sqlescape(condition_id), sqlescape(expConditions))
+                print(experiment)
+                for condition_id in experiment[2]:
+                    query = 'SELECT * FROM GUI_SpecificCondition sc WHERE sc.id = "{}"'.format(sqlescape(condition_id))
                     cursor.execute(query)
-
                     if len(cursor.fetchall()) > 0:
                         if expMeasures != '':
-                            # TODO: replace experiment.measurements with actual measurement id list
-                            # expirement[2] expected to be list of measurement ids
-                            query = 'SELECT sm.name, sm.value from GUI_SpecificMeasurement sm WHERE sm.id IN "{}" AND sm.name IN "{}"'.format(
-                                sqlescape(experiment[2]), sqlescape(expMeasures))
-                            cursor.execute(query)
-
-                            expFound.append((experiment, cursor.fetchall()))
+                            expFound[condition_id[0]] = (experiment, cursor.fetchall())
                         else:
-                            expFound.append(experiment)
+                            expFound[condition_id[0]] = experiment
 
-                        break
-
-            context = {'ExperimentsFound': expFound, 'found': len(expFound) > 0}
-            return render(request, 'GUI/results.html', context)
+            expFound = list(dict.fromkeys(expFound))
+            context = {"data": ({"measurements": expFound, "se":seqName, "es":expConditions}), 'found': len(expFound) > 0}
+            return render(request, 'GUI/resultsExtra.html', context)
