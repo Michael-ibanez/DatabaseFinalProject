@@ -95,13 +95,18 @@ def dataInputSequence(request):
         with connection.cursor() as cursor:
             seqName = request.POST.get('name')
             seqInfo = request.POST.get('info')
+            seqFile = request.post.get('fileName')
+            if len(seqInfo) == 0:
+                seqInfo = "None"
+            if len(seqFile) == 0:
+                seqFile == "None"
             # Check if that sequence already exists
             sql_search_query = ("SELECT * FROM GUI_Sequence WHERE name=%s")
             seqQuery = (sqlescape(seqName),)
             cursor.execute(sql_search_query, seqQuery)
             seqFound = cursor.fetchall()
             if len(seqFound) == 0:
-                newSeq = Sequence(name=sqlescape(seqName), info=sqlescape(seqInfo))
+                newSeq = Sequence(name=sqlescape(seqName), info=sqlescape(seqInfo), file=sqlescape(seqFile))
                 newSeq.save()
                 print("Sequence inserted successfully")
             else:
