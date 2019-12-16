@@ -461,26 +461,48 @@ def queryExtraCred(request):
     if request.method == 'POST':
         with connection.cursor() as cursor:
             seqName = request.POST.get('seqName')
-
             expConditions = request.POST.getlist('expConditions')
-
             expMeasures = request.POST.getlist('expMeasure')
+            expFound = []
 
-            expFound = {}
-
+            # Get the certain experiment where the sequence matches
             query = 'SELECT * FROM GUI_Experiment WHERE Sequence = "{}"'.format(sqlescape(seqName))
             cursor.execute(query)
+
+            # For each experiment that matches, check if one of the conndition matches the conditions requested
+            # If so then insert that experiment
             for experiment in cursor.fetchall():
-                print(experiment)
-                for condition_id in experiment[2]:
+                expss = experiment[2].replace(',','')
+                experiments = list(expss.replace(' ',''))
+                for condition_id in experiments:
                     query = 'SELECT * FROM GUI_SpecificCondition sc WHERE sc.id = "{}"'.format(sqlescape(condition_id))
                     cursor.execute(query)
-                    if len(cursor.fetchall()) > 0:
-                        if expMeasures != '':
-                            expFound[condition_id[0]] = (experiment, cursor.fetchall())
-                        else:
-                            expFound[condition_id[0]] = experiment
+                    condsFound = cursor.fetchall()
+                    # For loop to check if the condition was one of the ones inserted
+                    for cond in expConditions:
+                        if cond == condsFound[0][1]:
+                            expFound.append(experiment)
 
+            # For each experiment in the list, if there are measurements then query to see if that experiment has those measurements
             expFound = list(dict.fromkeys(expFound))
-            context = {"data": ({"measurements": expFound, "se":seqName, "es":expConditions}), 'found': len(expFound) > 0}
+            measListIFound = {}
+            for exp in expFound:
+                measListIFound[exp[0]] = "Experiment :" + str(exp[0]) + ","
+
+            # For each of those experiments, get the value of the measurements requested
+            flagLol = 0
+            if len(expMeasures) > 0:
+                flagLol = 1
+                for expMea in expMeasures:
+                    for expWhole in expFound:
+                        meass = expWhole[3].replace(',','')
+                        expFoundC = list(meass.replace(' ',''))
+                        for measInExp in expFoundC:
+                            query = 'SELECT * FROM GUI_SpecificMeasurement sc WHERE sc.id = "{}"'.format(sqlescape(measInExp))
+                            cursor.execute(query)
+                            condsFounda = cursor.fetchall()
+                            if condsFounda[0][1] == expMea:
+                                measListIFound[expWhole[0]] += str(condsFounda[0][1]) + ":" + str(condsFounda[0][2]) + ", "
+
+            context = {"data": ({"measurements": measListIFound, "se":seqName, "es":expConditions,'meas':flagLol}), 'found': len(expFound) > 0}
             return render(request, 'GUI/resultsExtra.html', context)
