@@ -77,7 +77,7 @@ def dataInputMeasurement(request):
             possibleValues = request.POST.get('possValues')
             if measDomain is None or measDomain == '' or measDomain.lower() == 'domain':
                 return render(request, 'GUI/error.html')
-            if measDomain.lower() == 'boolean' and possibleValues.lower() != 'true' and possibleValues.lower() != 'false' and possibleValues != '1' and possibleValues != '0':
+            if measDomain.lower() == 'boolean' and possibleValues.lower() != 't' and possibleValues.lower() != 'f' and possibleValues != '1' and possibleValues != '0':
                 return render(request, 'GUI/error.html')
             try:
                 if measDomain.lower() == 'int' and int(possibleValues):
