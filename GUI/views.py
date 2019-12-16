@@ -379,6 +379,11 @@ def querySideBySide(request):
         with connection.cursor() as cursor:
             one = request.POST.get('itemOneChoice')
             two = request.POST.get('itemTwoChoice')
+
+            # if they left it one the first choice, the prompt
+            if one == '1' or two == '1':
+                return render(request, 'GUI/error.html')
+
             se1 = ''
             se2 = ''
             condListOne = []
