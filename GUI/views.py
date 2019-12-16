@@ -546,20 +546,26 @@ def comparisonResults(request):
 
     if request.method == 'POST':
         with connection.cursor() as cursor:
-            seqName = request.POST.get('seqName')
+            seqName = request.POST.getlist('seqName')
             expConditions = request.POST.getlist('expConditions')
             expMeasures = request.POST.getlist('expMeasure')
+            totalExperiments = []
             expFound = []
-            if seqName == None:
+            if len(seqName) == 0:
                 return render(request, 'GUI/error.html')
 
             # Get the certain experiment where the sequence matches
-            query = 'SELECT * FROM GUI_Experiment WHERE Sequence = "{}"'.format(sqlescape(seqName))
-            cursor.execute(query)
+            for something in seqName:
+                query = 'SELECT * FROM GUI_Experiment WHERE Sequence = "{}"'.format(sqlescape(something))
+                cursor.execute(query)
+                expASA = cursor.fetchall()
+                if len(expASA) > 0:
+                    for a in expASA:
+                        totalExperiments.append(a)
 
             # For each experiment that matches, check if one of the conndition matches the conditions requested
             # If so then insert that experiment
-            for experiment in cursor.fetchall():
+            for experiment in totalExperiments:
                 expss = experiment[2].replace(',', '')
                 experiments = list(expss.replace(' ', ''))
                 for condition_id in experiments:
@@ -584,11 +590,11 @@ def comparisonResults(request):
                 flagLol = 1
                 for expMea in expMeasures:
                     for expWhole in expFound:
-                        meass = expWhole[3].replace(',', '')
-                        expFoundC = list(meass.replace(' ', ''))
+                        mana = expWhole[3].split(', ')
+                        expFoundC = [int(i) for i in mana]
                         for measInExp in expFoundC:
                             query = 'SELECT * FROM GUI_SpecificMeasurement sc WHERE sc.id = "{}"'.format(
-                                sqlescape(measInExp))
+                                sqlescape(str(measInExp)))
                             cursor.execute(query)
                             condsFounda = cursor.fetchall()
                             if condsFounda[0][1] == expMea:
