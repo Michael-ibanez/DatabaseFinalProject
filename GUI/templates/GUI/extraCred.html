@@ -64,24 +64,29 @@
     >
         {% csrf_token %}
         <div>
+            <h4>Sequences</h4>
             <div class="col-md-12">
-                <select name="seqName" style="">
+                <select name="seqName" style="color:black;margin-bottom:17.5px;margin-top:10px;width: 35%;padding: 12px;border: 3px solid #555;">
                     {% for entry in data.choices %}
-                        <option value={{ entry.name }}>Sequence {{ entry.name }}</option>
+                        <option value={{ entry.name }}>Sequence: {{ entry.name }}</option>
                     {% endfor %}
                 </select>
             </div>
+            <h4>Conditions</h4>
+            <h6>Select multiple Conditions by holding the [Ctrl] key and clicking on multiple options.</h6>
             <div class="col-md-6">
-                <select name="expConditions" class="select_field_class" multiple="multiple" style="color:black;margin-bottom:17.5px;margin-top:10px;">
+                <select name="expConditions" class="select_field_class" multiple="multiple" style="color:black;margin-bottom:17.5px;margin-top:10px;width: 71%;border: 3px solid #555;">
                     {% for entry in data.choices2 %}
-                        <option value={{ entry.name }}>Condition {{ entry.name }}</option>
+                        <option value={{ entry.name }}>Condition: {{ entry.name }}</option>
                     {% endfor %}
                 </select>
             </div>
+            <h4>Measurements</h4>
+            <h6>Select multiple Measurements by holding the [Ctrl] key and clicking on multiple options.</h6>
             <div class="col-md-6">
-                <select name="expMeasure" class="select_field_class" multiple="multiple" style="color:black;margin-bottom:17.5px;margin-top:10px;">
+                <select name="expMeasure" class="select_field_class" multiple="multiple" style="color:black;margin-bottom:17.5px;margin-top:10px;width: 71%;border: 3px solid #555;">
                     {% for entry in data.choices3 %}
-                        <option value={{ entry.name }}>Measurement {{ entry.name }}</option>
+                        <option value={{ entry.name }}>Measurement: {{ entry.name }}</option>
                     {% endfor %}
                 </select>
             </div>

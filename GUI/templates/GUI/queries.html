@@ -130,16 +130,16 @@
 
                 <div>
                     <div class="col-md-12">
-                        <select name="itemOneChoice" style="color:black;margin-bottom:17.5px;margin-top:10px;">
+                        <select name="itemOneChoice" style="color:black;margin-top:10px;width: 80%;padding: 12px;border: 3px solid #555;">
                             {% for entry in data.choices %}
-                                <option value={{ entry.id }}>Experiment {{ entry.sequence }} with conditions ids : {{entry.conditions}}</option>
+                                <option value={{ entry.id }}>Experiment {{ entry.sequence }} with condition ids : {{entry.conditions}}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="col-md-12">
-                        <select name="itemTwoChoice" style="color:black;margin-bottom:17.5px;">
+                        <select name="itemTwoChoice" style="color:black;margin-bottom:17.5px;margin-top:10px;width: 80%;padding: 12px;border: 3px solid #555;">
                             {% for entry in data.choices %}
-                                <option value={{ entry.id }}>Experiment {{ entry.sequence }} with conditions ids : {{entry.conditions}}</option>
+                                <option value={{ entry.id }}>Experiment {{ entry.sequence }} with condition ids : {{entry.conditions}}</option>
                             {% endfor %}
                         </select>
                     </div>

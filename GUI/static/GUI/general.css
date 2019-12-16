@@ -21,13 +21,20 @@ input[type="file"] {
     padding: 0;
 }
 
-input[type="text"] {
+input[type="text"]{
     width: 60%;
     padding: 12px 20px;
     margin: 8px 0;
     border: 3px solid #555;
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
+}
+
+select{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 3px solid #555;
 }
 
 input[type=text]:focus {

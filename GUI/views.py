@@ -180,6 +180,10 @@ def invalidInsert(request):
     return render(request, 'GUI/invalidInsert.html')
 
 
+def updated(request):
+    return render(request, 'GUI/updated.html')
+
+
 # Form for inputting a csv file
 def insertCSV(request):
     if request.method == 'POST':
@@ -187,6 +191,7 @@ def insertCSV(request):
 
         if csv_file.multiple_chunks():
             print("File is too big")
+            return render(request, 'GUI/invalidInsert.html')
 
         # Read in each line of the csv file
         try:
@@ -197,6 +202,8 @@ def insertCSV(request):
         # Loop over the lines and save them in db. If error , store as string and then display
         # First line contains the experiments so read those in first as experiments
         lineOne = lines[0]
+        if lineOne[0] == ',':
+            lineOne = lineOne[1:]
         fields = lineOne.split(",")
         seqCond = {}
         conds = []
@@ -329,6 +336,8 @@ def queryExperiment(request):
             dataList = []
             for specCondition in listSpecCond:
                 item = specCondition.split(':')
+                if len(item) < 2:
+                    return render(request, 'GUI/error.html')
                 query = 'SELECT * FROM GUI_SpecificCondition WHERE name = "{}" AND value = "{}"'.format(
                     sqlescape(item[0]), sqlescape(item[1]))
                 cursor.execute(query)

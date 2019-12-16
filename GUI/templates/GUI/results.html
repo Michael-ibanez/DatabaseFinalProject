@@ -43,6 +43,7 @@
         {% if not compare%}
         <h2 style="padding-left: 20px; padding-top: 10px;">Your query for sequence: {{ data.se }} with conditions: {{ data.es }} has returned the following results:</h2>
         <div style="padding: 20px;">
+            <h4>{{ data.es }} with conditions: {{data.se}}</h4>
             <b-table stacked responsive striped dark bordered :items="items"></b-table>
         </div>
         {% else %}
@@ -51,11 +52,13 @@
         <div class="row">
             <div class="col-lg-6">
                 <div style="padding: 20px;">
+                    <h4>{{ data.es1 }} with conditions: {{data.se1}}</h4>
                     <b-table stacked responsive striped dark bordered :items="items"></b-table>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div style="padding: 20px;">
+                    <h4>{{ data.es2 }} with conditions: {{data.se2}}</h4>
                     <b-table stacked responsive striped dark bordered :items="items2"></b-table>
                 </div>
             </div>
