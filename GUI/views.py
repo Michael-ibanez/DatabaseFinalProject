@@ -36,19 +36,19 @@ def dataInputCondition(request):
             condDomain = request.POST.get('domain')
             possibleValues = request.POST.get('possValues')
             if condDomain.lower() == 'domain':
-                return render(request, 'GUI/error.html')
-            if condDomain.lower() == 'boolean' and possibleValues.lower() != 'true' and possibleValues.lower() != 'false' and possibleValues != '1' and possibleValues != '0':
-                return render(request, 'GUI/error.html')
-            try:
-                if condDomain.lower() == 'int' and int(possibleValues):
-                    return render(request, 'GUI/error.html')
-            except Exception:
-                return render(request, 'GUI/error.html')
-            try:
-                if condDomain.lower() == 'float' and float(possibleValues):
-                    return render(request, 'GUI/error.html')
-            except Exception:
-                return render(request, 'GUI/error.html')
+                 return render(request, 'GUI/error.html')
+             if condDomain.lower() == 'boolean' and possibleValues.lower() != 'true' and possibleValues.lower() != 'false' and possibleValues != '1' and possibleValues != '0':
+                 return render(request, 'GUI/error.html')
+             try:
+                 if condDomain.lower() == 'int' and int(possibleValues):
+                     return render(request, 'GUI/error.html')
+             except Exception:
+                 return render(request, 'GUI/error.html')
+             try:
+                 if condDomain.lower() == 'float' and float(possibleValues):
+                     return render(request, 'GUI/error.html')
+             except Exception:
+                 return render(request, 'GUI/error.html')
             # Check if that condition already exists
             sql_search_query = "SELECT * FROM GUI_Condition WHERE name=%s"
             condQuery = (sqlescape(condName),)
@@ -60,7 +60,11 @@ def dataInputCondition(request):
                 newCon.save()
                 print("Condition inserted successfully")
             else:
-                print("Condition was already found. Try another Condition")
+                print("Condition was already found. Will update this condition")
+                query = 'UPDATE GUI_Condition SET domain ="{}", possValues ="{}" WHERE name="{}"'.format(
+                    sqlescape(condDomain), sqlescape(possibleValues), sqlescape(condName))
+                cursor.execute(query)
+                return render(request, 'GUI/updated.html')
             return render(request, 'GUI/insertedComplete.html')
 
 
@@ -72,19 +76,19 @@ def dataInputMeasurement(request):
             measDomain = request.POST.get('domain')
             possibleValues = request.POST.get('possValues')
             if measDomain.lower() == 'domain':
-                return render(request, 'GUI/error.html')
-            if measDomain.lower() == 'boolean' and possibleValues.lower() != 'true' and possibleValues.lower() != 'false' and possibleValues != '1' and possibleValues != '0':
-                return render(request, 'GUI/error.html')
-            try:
-                if measDomain.lower() == 'int' and int(possibleValues):
-                    return render(request, 'GUI/error.html')
-            except Exception:
-                return render(request, 'GUI/error.html')
-            try:
-                if measDomain.lower() == 'float' and float(possibleValues):
-                    return render(request, 'GUI/error.html')
-            except Exception:
-                return render(request, 'GUI/error.html')
+                 return render(request, 'GUI/error.html')
+             if measDomain.lower() == 'boolean' and possibleValues.lower() != 'true' and possibleValues.lower() != 'false' and possibleValues != '1' and possibleValues != '0':
+                 return render(request, 'GUI/error.html')
+             try:
+                 if measDomain.lower() == 'int' and int(possibleValues):
+                     return render(request, 'GUI/error.html')
+             except Exception:
+                 return render(request, 'GUI/error.html')
+             try:
+                 if measDomain.lower() == 'float' and float(possibleValues):
+                     return render(request, 'GUI/error.html')
+             except Exception:
+                 return render(request, 'GUI/error.html')
             # Check if that measurement already exists
             sql_search_query = "SELECT * FROM GUI_Measurement WHERE name=%s"
             measQuery = (sqlescape(measName),)
@@ -97,6 +101,10 @@ def dataInputMeasurement(request):
                 print("Measurement inserted successfully")
             else:
                 print("Measurement was already found. Try another Measurement")
+                query = 'UPDATE GUI_Measurement SET domain ="{}", possValues ="{}" WHERE name="{}"'.format(
+                    sqlescape(measDomain), sqlescape(possibleValues), sqlescape(measName))
+                cursor.execute(query)
+                return render(request, 'GUI/updated.html')
             return render(request, 'GUI/insertedComplete.html')
 
 
@@ -122,6 +130,10 @@ def dataInputSequence(request):
                 print("Sequence inserted successfully")
             else:
                 print("Sequence was already found. Try another Sequence")
+                query = 'UPDATE GUI_Sequence SET info ="{}", file ="{}" WHERE name="{}"'.format(
+                    sqlescape(seqInfo), sqlescape(seqFile), sqlescape(seqName))
+                cursor.execute(query)
+                return render(request, 'GUI/updated.html')
             return render(request, 'GUI/insertedComplete.html')
 
 
@@ -157,9 +169,11 @@ def dataInputExperiment(request):
                 flag2 = 1
                 if flag:
                     meaList = measList.split(',')
+                    print(measList)
                     for b in meaList:
                         b = b.strip()
                         bb = b.split(':')
+                        print(bb)
                         if len(bb) < 2:
                             return render(request, 'GUI/error.html')
                         sql_search_query = "SELECT * FROM GUI_Measurement WHERE name=%s"
@@ -216,6 +230,10 @@ def dataInputExperiment(request):
                         newExp.save()
                     else:
                         print("Experiment has already been recorded")
+                        query = 'UPDATE GUI_Experiment SET measurements ="{}" WHERE sequence="{}" AND conditions="{}"'.format(
+                            sqlescape(SpecMeau), sqlescape(seqName), sqlescape(SpecCond))
+                        cursor.execute(query)
+                        return render(request, 'GUI/updated.html')
             else:
                 print("No sequence found")
                 return error(request)
@@ -288,7 +306,7 @@ def insertCSV(request):
                     cursor.execute(sql_search_query, ConQuery)
                     conFound = cursor.fetchall()
                     if len(conFound) == 0:
-                        newCon = Condition(name=sqlescape(line[i]), domain="any", possValues="any")
+                        newCon = Condition(name=sqlescape(line[i]), domain="String", possValues="any")
                         newCon.save()
                     # Check if the specific condition exists else insert it
                     sql_search_query = "SELECT * FROM GUI_SpecificCondition WHERE name=%s AND value=%s"
@@ -318,7 +336,7 @@ def insertCSV(request):
                 cursor.execute(sql_search_query, measurementQuery)
                 measurementFound = cursor.fetchall()
                 if len(measurementFound) == 0:
-                    newMeasurement = Measurement(name=sqlescape(fields[0]), domain="any", possValues="any")
+                    newMeasurement = Measurement(name=sqlescape(fields[0]), domain="String", possValues="any")
                     newMeasurement.save()
 
                 # Insert into db the specific measurement and if it doesnt exist store the id
@@ -432,10 +450,6 @@ def querySideBySide(request):
             one = request.POST.get('itemOneChoice')
             two = request.POST.get('itemTwoChoice')
 
-            # if they left it one the first choice, the prompt
-            if one == '1' or two == '1':
-                return render(request, 'GUI/error.html')
-
             se1 = ''
             se2 = ''
             condListOne = []
@@ -536,6 +550,8 @@ def queryExtraCred(request):
             expConditions = request.POST.getlist('expConditions')
             expMeasures = request.POST.getlist('expMeasure')
             expFound = []
+            if seqName == None:
+                return render(request, 'GUI/error.html')
 
             # Get the certain experiment where the sequence matches
             query = 'SELECT * FROM GUI_Experiment WHERE Sequence = "{}"'.format(sqlescape(seqName))
@@ -560,7 +576,7 @@ def queryExtraCred(request):
             expFound = list(dict.fromkeys(expFound))
             measListIFound = {}
             for exp in expFound:
-                measListIFound[exp[0]] = "Experiment :" + str(exp[0]) + ","
+                measListIFound[exp[0]] = "Experiment :" + str(exp[0]) + " with Measurements : "
 
             # For each of those experiments, get the value of the measurements requested
             flagLol = 0
