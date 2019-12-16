@@ -1,8 +1,7 @@
 {% load static %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Results</title>
+    <title>GEMS Presentation</title>
     <link
             type="text/css"
             rel="stylesheet"
@@ -14,7 +13,7 @@
             href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"
     />
     <link rel="stylesheet" href="{% static 'GUI/general.css' %}"/>
-    <link rel="shortcut icon" type="image/png" href="{% static 'GUI/favicon.ico' %}"/>
+    <link rel="shortcut icon" href="{% static 'GUI/favicon.ico' %}"/>
 </head>
 <body background="{% static 'GUI/background.gif' %}">
 <div id="app">
@@ -35,30 +34,30 @@
         </b-collapse>
     </b-navbar>
 
-    <!--
-    https://stackoverflow.com/questions/59229071/vuejs-bootstrap-b-table-data-not-loading-updating
-    https://stackoverflow.com/questions/57960853/why-bootstrap-table-example-not-working-for-me
-    https://bootstrap-vue.js.org/docs/components/table/
-    -->
-    {% if found %}
-        <h2 style="padding-left: 20px; padding-top: 10px;">Your query for sequence : {{ data.se }} with
-            conditions: {{ data.es }} has returned the following results:</h2>
-        <div style="padding: 20px;">
-            <b-table stacked responsive striped dark bordered :items="items"></b-table>
-        </div>
-    {% else %}
-        <h1 style="text-align: center">There were no results to that query. Please try again.</h1>
-        <div style="margin: 0 auto; display: inline-block; width: 100%;text-align: center;">
-            <img src="{% static 'GUI/sadbear.png' %}" alt="Bruiser is sad :(">
-        </div>
-    {% endif %}
+
+    <div>
+        <h1 style="text-align: center;margin-top:10px;">
+            Gene Expression Management System Presentation
+        </h1>
+        <p style="text-align: center;margin-left: 50px;margin-top:10px;margin-right: 50px;font-size:30px;">
+            Below you can find a powerpoint explaining our tool and how it works.
+        </p>
+    </div>
+    <div>
+        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSS3Ea33PFBzrj3ye28tm_G1ouS8NFtsdgX2ZC8leLpW893xCkugK_gXp-LgdF00Z8Xj3H2775WljFt/embed?start=false&loop=false&delayms=5000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="display: block; margin: 0 auto; padding-bottom: 20px;"></iframe>
+    </div>
     <div class="row">
-        <div class="col-lg-4 text-center" style="margin: 0 auto; padding-top: 30px; padding-bottom:100px;">
-            <b-button variant="info" href="/" style="width: 250px;">Home<br>
-                <img src="{% static 'GUI/home.png' %}" alt="Home" style="max-height: 100px">
+        <div class="col-lg-4 text-center" style="padding-bottom: 10px;">
+            <b-button variant="info" href="/insertData" style="width: 250px;">Insert Data<br>
+                <img src="{% static 'GUI/databaselogo.png' %}" alt="Insert Data" style="max-height: 100px">
             </b-button>
         </div>
-        <div class="col-lg-4 text-center" style="margin: 0 auto; padding-top: 30px; padding-bottom:100px;">
+        <div class="col-lg-4 text-center" style="padding-bottom: 10px;">
+            <b-button variant="info" href="/queries" style="width: 250px;">Queries<br>
+                <img src="{% static 'GUI/querylogo.jpg' %}" alt="Queries" style="max-height: 100px">
+            </b-button>
+        </div>
+        <div class="col-lg-4 text-center" style="padding-bottom: 10px;">
             <b-button variant="info" href="/extraCred" style="width: 250px;">Experiment Comparisons<br>
                 <img src="{% static 'GUI/comparelogo.png' %}" alt="Experiment Comparisons"
                      style="max-height: 100px">
@@ -66,17 +65,12 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
 <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
 <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
 <script>
-    new Vue({
-        data() {
-            return {
-                items: [ {% autoescape off %} {{ data.measurements }} {% endautoescape %} ]
-            };
-        }
-    }).$mount("#app");
+    new Vue({el: '#app'});
 </script>
+
 </body>
 </html>

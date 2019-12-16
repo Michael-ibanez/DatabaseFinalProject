@@ -15,6 +15,10 @@ def error(request):
     return render(request, 'GUI/error.html')
 
 
+def presentation(request):
+    return render(request, 'GUI/presentation.html')
+
+
 # Data input page of our project
 def insertData(request):
     return render(request, 'GUI/insertData.html')
