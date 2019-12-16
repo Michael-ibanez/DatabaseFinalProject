@@ -41,7 +41,7 @@
             <b-navbar-nav>
                 <b-nav-item href="/insertData">Insert Data</b-nav-item>
                 <b-nav-item href="/queries">Queries</b-nav-item>
-                <b-nav-item href="/extraCred" disabled>Experiment Comparisons</b-nav-item>
+                <b-nav-item href="/comparisons" disabled>Experiment Comparisons</b-nav-item>
                 <b-nav-item href="/presentation">Presentation</b-nav-item>
             </b-navbar-nav>
         </b-collapse>
@@ -58,7 +58,7 @@
     </p>
 
     <form
-            action="{% url 'GUI:queryExtraCred' %}"
+            action="{% url 'GUI:comparisonResults' %}"
             method="post"
             enctype="multipart/form-data"
             class="form-horizontal"

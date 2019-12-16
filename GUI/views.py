@@ -523,19 +523,19 @@ def querySideBySide(request):
 
 
 # Extra credit page of our project
-def extraCred(request):
+def comparisons(request):
     with connection.cursor() as cursor:
         dataList = Sequence.objects.all().order_by('name')
         dataList2 = Condition.objects.all().order_by('name')
         dataList3 = Measurement.objects.all().order_by('name')
         context = {'data': ({"choices": dataList, "choices2": dataList2, "choices3": dataList3})}
-        return render(request, 'GUI/extraCred.html', context)
+        return render(request, 'GUI/comparisons.html', context)
 
 
 # Form for extra credit query
 # TODO: change this so that it is called for each sequence in the list passed by the user
     # then return something like {seq: {context}} or however you want to handle it
-def queryExtraCred(request):
+def comparisonResults(request):
     #   The user should enter a list of sequences and conditions.
     #
     #       Then the system should retrieve all experiments that has the sequence and

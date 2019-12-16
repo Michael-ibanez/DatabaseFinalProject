@@ -21,7 +21,7 @@ urlpatterns = [
     path('queryExperiment', views.queryExperiment, name='queryExperiment'),
     path('querySideBySide', views.querySideBySide, name='querySideBySide'),
 
-    path('extraCred', views.extraCred, name='extraCred'),
-    path('queryExtraCred', views.queryExtraCred, name='queryExtraCred'),
+    path('comparisons', views.comparisons, name='comparisons'),
+    path('comparisonResults', views.comparisonResults, name='comparisonResults'),
 
 ]
