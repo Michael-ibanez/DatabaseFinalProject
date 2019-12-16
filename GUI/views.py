@@ -54,13 +54,13 @@ def dataInputMeasurement(request):
             measDomain = request.POST.get('domain')
             possibleValues = request.POST.get('possValues')
             # Check if that measurement already exists
-            sql_search_query = ("SELECT * FROM GUI_Measurement WHERE name=%s")
+            sql_search_query = "SELECT * FROM GUI_Measurement WHERE name=%s"
             measQuery = (sqlescape(measName),)
             cursor.execute(sql_search_query, measQuery)
             measFound = cursor.fetchall()
             if len(measFound) == 0:
                 newMeas = Measurement(name=sqlescape(measName), domain=sqlescape(measDomain),
-                                    possValues=sqlescape(possibleValues))
+                                      possValues=sqlescape(possibleValues))
                 newMeas.save()
                 print("Measurement inserted successfully")
             else:
@@ -80,7 +80,7 @@ def dataInputSequence(request):
             if len(seqFile) == 0:
                 seqFile == "None"
             # Check if that sequence already exists
-            sql_search_query = ("SELECT * FROM GUI_Sequence WHERE name=%s")
+            sql_search_query = "SELECT * FROM GUI_Sequence WHERE name=%s"
             seqQuery = (sqlescape(seqName),)
             cursor.execute(sql_search_query, seqQuery)
             seqFound = cursor.fetchall()
@@ -103,7 +103,7 @@ def dataInputExperiment(request):
             conditionsList = []
             measurementsList = []
             # Check if that sequence already exists
-            sql_search_query = ("SELECT * FROM GUI_Sequence WHERE name=%s")
+            sql_search_query = "SELECT * FROM GUI_Sequence WHERE name=%s"
             seqQuery = (sqlescape(seqName),)
             cursor.execute(sql_search_query, seqQuery)
             seqFound = cursor.fetchall()
@@ -113,10 +113,10 @@ def dataInputExperiment(request):
                 flag = 1
                 for a in conList:
                     aa = a.split(':')
-                    sql_search_query = ("SELECT * FROM GUI_Condition WHERE name=%s")
+                    sql_search_query = "SELECT * FROM GUI_Condition WHERE name=%s"
                     seqQuery = (sqlescape(aa[0]),)
                     cursor.execute(sql_search_query, seqQuery)
-                    conFound = cursor.fetchall()
+                    seqFound = cursor.fetchall()
                     if len(seqFound) == 0:
                         flag = 0
                 flag2 = 1
@@ -124,12 +124,12 @@ def dataInputExperiment(request):
                     meaList = measList.split(',')
                     for b in meaList:
                         bb = b.split(':')
-                        sql_search_query = ("SELECT * FROM GUI_Measurement WHERE name=%s")
+                        sql_search_query = "SELECT * FROM GUI_Measurement WHERE name=%s"
                         seqQuery = (sqlescape(bb[0]),)
                         cursor.execute(sql_search_query, seqQuery)
                         meaFound = cursor.fetchall()
                         if len(meaFound) == 0:
-                            flag2 = 0;
+                            flag2 = 0
                 if flag2:
                     # insert all specific conditions and specific measurements then insert the experiment
                     # only if they dont exist, else just add the ids of those found
@@ -138,7 +138,8 @@ def dataInputExperiment(request):
                     for a in conList:
                         aa = a.split(':')
                         print(aa)
-                        query = 'SELECT * FROM GUI_SpecificCondition WHERE name="{}" AND value="{}"'.format(sqlescape(aa[0]),sqlescape(aa[1]))
+                        query = 'SELECT * FROM GUI_SpecificCondition WHERE name="{}" AND value="{}"'.format(
+                            sqlescape(aa[0]), sqlescape(aa[1]))
                         cursor.execute(query)
                         specCondFounda = cursor.fetchall()
                         if len(specCondFounda) == 0:
@@ -151,7 +152,8 @@ def dataInputExperiment(request):
                     for b in meaList:
                         bb = b.split(':')
                         print(bb)
-                        query = 'SELECT * FROM GUI_SpecificMeasurement WHERE name="{}" AND value="{}"'.format(sqlescape(bb[0]),sqlescape(bb[1]))
+                        query = 'SELECT * FROM GUI_SpecificMeasurement WHERE name="{}" AND value="{}"'.format(
+                            sqlescape(bb[0]), sqlescape(bb[1]))
                         cursor.execute(query)
                         specMeasuFound = cursor.fetchall()
                         if len(specMeasuFound) == 0:
@@ -162,11 +164,13 @@ def dataInputExperiment(request):
                             measurementsList.append(specMeasuFound[0][0])
                     SpecCond = str(conditionsList).strip('[]')
                     SpecMeau = str(measurementsList).strip('[]')
-                    query = 'SELECT * FROM GUI_Experiment WHERE sequence="{}" AND conditions="{}"'.format(sqlescape(seqName),sqlescape(SpecCond))
+                    query = 'SELECT * FROM GUI_Experiment WHERE sequence="{}" AND conditions="{}"'.format(
+                        sqlescape(seqName), sqlescape(SpecCond))
                     cursor.execute(query)
                     exMeasuFound = cursor.fetchall()
                     if len(exMeasuFound) == 0:
-                        newExp = Experiment(sequence=sqlescape(seqName), conditions=sqlescape(SpecCond),measurements=sqlescape(SpecMeau))
+                        newExp = Experiment(sequence=sqlescape(seqName), conditions=sqlescape(SpecCond),
+                                            measurements=sqlescape(SpecMeau))
                         newExp.save()
                     else:
                         print("Experiment has already been recorded")
@@ -217,7 +221,7 @@ def insertCSV(request):
                 seqCond[count] = line[0]
                 conds.append([])
                 measurements.append([])
-                sql_search_query = ("SELECT * FROM GUI_Sequence WHERE name=%s")
+                sql_search_query = "SELECT * FROM GUI_Sequence WHERE name=%s"
                 seqQuery = (sqlescape(line[0]),)
                 cursor.execute(sql_search_query, seqQuery)
                 sequenceFound = cursor.fetchall()
@@ -230,7 +234,7 @@ def insertCSV(request):
                 # Insert into db the specific condition and if it doesnt exist store the id
                 for i in range(1, len(line), 2):
                     # Check if a condition exists with that name else insert it
-                    sql_search_query = ("SELECT * FROM GUI_Condition WHERE name=%s")
+                    sql_search_query = "SELECT * FROM GUI_Condition WHERE name=%s"
                     ConQuery = (sqlescape(line[i]),)
                     cursor.execute(sql_search_query, ConQuery)
                     conFound = cursor.fetchall()
@@ -238,7 +242,7 @@ def insertCSV(request):
                         newCon = Condition(name=sqlescape(line[i]), domain="any", possValues="any")
                         newCon.save()
                     # Check if the specific condition exists else insert it
-                    sql_search_query = ("SELECT * FROM GUI_SpecificCondition WHERE name=%s AND value=%s")
+                    sql_search_query = "SELECT * FROM GUI_SpecificCondition WHERE name=%s AND value=%s"
                     SpecConQuery = (sqlescape(line[i]), sqlescape(line[i + 1]),)
                     cursor.execute(sql_search_query, SpecConQuery)
                     SpecConFound = cursor.fetchall()
@@ -258,7 +262,7 @@ def insertCSV(request):
                 print(data_dict['measurement'])
                 curr = 0
                 # Check if a measurement exists with that name else insert it
-                sql_search_query = ("SELECT * FROM GUI_Measurement WHERE name=%s")
+                sql_search_query = "SELECT * FROM GUI_Measurement WHERE name=%s"
                 measurementQuery = (sqlescape(fields[0]),)
                 cursor.execute(sql_search_query, measurementQuery)
                 measurementFound = cursor.fetchall()
@@ -268,7 +272,7 @@ def insertCSV(request):
 
                 # Insert into db the specific measurement and if it doesnt exist store the id
                 for exp in fields[1:]:
-                    sql_search_query = ("SELECT * FROM GUI_SpecificMeasurement WHERE name=%s AND value=%s")
+                    sql_search_query = "SELECT * FROM GUI_SpecificMeasurement WHERE name=%s AND value=%s"
                     SpecMeaQuery = (sqlescape(fields[0]), sqlescape(exp),)
                     cursor.execute(sql_search_query, SpecMeaQuery)
                     SpecMeaFound = cursor.fetchall()
@@ -291,7 +295,7 @@ def insertCSV(request):
                 conds[it].sort()
                 print(seqCond[it], " has conditions:", str(conds[it]).strip('[]'), " and measurements:",
                       str(measurements[it]).strip('[]'))
-                sql_search_query = ("SELECT * FROM GUI_Experiment WHERE sequence=%s AND conditions=%s")
+                sql_search_query = "SELECT * FROM GUI_Experiment WHERE sequence=%s AND conditions=%s"
                 SpecCond = str(conds[it]).strip('[]')
                 SpecMeasure = str(measurements[it]).strip('[]')
                 expQuery = (sqlescape(seqCond[it]), sqlescape(SpecCond),)
@@ -417,7 +421,6 @@ def querySideBySide(request):
                 if len(s) > 0:
                     se2 += str(s[0][1]) + ':' + str(s[0][2]) + ' '
 
-
             es1 = expOneFound[0][1]
             es2 = expTwoFound[0][1]
             condListOneA = set(condListOne)
@@ -442,7 +445,8 @@ def querySideBySide(request):
                         if a == measurementFound[0][1]:
                             mesua = measurementFound[0]
                             measurementList2[mesua[1]] = mesua[2]
-            context = {"data": ({"es1": es1, "es2": es2,"se1":se1,"se2":se2, "measurements": measurementList, "measurements2": measurementList2}),
+            context = {"data": ({"es1": es1, "es2": es2, "se1": se1, "se2": se2, "measurements": measurementList,
+                                 "measurements2": measurementList2}),
                        "found": True, "compare": True}
             return render(request, 'GUI/results.html', context)
 
@@ -481,8 +485,8 @@ def queryExtraCred(request):
             # For each experiment that matches, check if one of the conndition matches the conditions requested
             # If so then insert that experiment
             for experiment in cursor.fetchall():
-                expss = experiment[2].replace(',','')
-                experiments = list(expss.replace(' ',''))
+                expss = experiment[2].replace(',', '')
+                experiments = list(expss.replace(' ', ''))
                 for condition_id in experiments:
                     query = 'SELECT * FROM GUI_SpecificCondition sc WHERE sc.id = "{}"'.format(sqlescape(condition_id))
                     cursor.execute(query)
@@ -492,7 +496,8 @@ def queryExtraCred(request):
                         if cond == condsFound[0][1]:
                             expFound.append(experiment)
 
-            # For each experiment in the list, if there are measurements then query to see if that experiment has those measurements
+            # For each experiment in the list, if there are measurements then query to see if that experiment has
+            # those measurements
             expFound = list(dict.fromkeys(expFound))
             measListIFound = {}
             for exp in expFound:
@@ -504,14 +509,17 @@ def queryExtraCred(request):
                 flagLol = 1
                 for expMea in expMeasures:
                     for expWhole in expFound:
-                        meass = expWhole[3].replace(',','')
-                        expFoundC = list(meass.replace(' ',''))
+                        meass = expWhole[3].replace(',', '')
+                        expFoundC = list(meass.replace(' ', ''))
                         for measInExp in expFoundC:
-                            query = 'SELECT * FROM GUI_SpecificMeasurement sc WHERE sc.id = "{}"'.format(sqlescape(measInExp))
+                            query = 'SELECT * FROM GUI_SpecificMeasurement sc WHERE sc.id = "{}"'.format(
+                                sqlescape(measInExp))
                             cursor.execute(query)
                             condsFounda = cursor.fetchall()
                             if condsFounda[0][1] == expMea:
-                                measListIFound[expWhole[0]] += str(condsFounda[0][1]) + ":" + str(condsFounda[0][2]) + ", "
+                                measListIFound[expWhole[0]] += str(condsFounda[0][1]) + ":" + str(
+                                    condsFounda[0][2]) + ", "
 
-            context = {"data": ({"measurements": measListIFound, "se":seqName, "es":expConditions,'meas':flagLol}), 'found': len(expFound) > 0}
+            context = {"data": ({"measurements": measListIFound, "se": seqName, "es": expConditions, 'meas': flagLol}),
+                       'found': len(expFound) > 0}
             return render(request, 'GUI/resultsExtra.html', context)

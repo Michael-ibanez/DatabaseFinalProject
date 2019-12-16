@@ -21,7 +21,7 @@ input[type="file"] {
     padding: 0;
 }
 
-input[type="text"]{
+input[type="text"] {
     width: 60%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -30,7 +30,7 @@ input[type="text"]{
     transition: width 0.4s ease-in-out;
 }
 
-select{
+select {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -53,5 +53,5 @@ input[type=text]:focus {
 }
 
 table.b-table[aria-busy='true'] {
-  opacity: 0.6;
+    opacity: 0.6;
 }

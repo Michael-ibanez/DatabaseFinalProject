@@ -39,8 +39,9 @@
     https://stackoverflow.com/questions/57960853/why-bootstrap-table-example-not-working-for-me
     https://bootstrap-vue.js.org/docs/components/table/
     -->
-    {% if found%}
-        <h2 style="padding-left: 20px; padding-top: 10px;">Your query for sequence : {{ data.se }} with conditions: {{ data.es }} has returned the following results:</h2>
+    {% if found %}
+        <h2 style="padding-left: 20px; padding-top: 10px;">Your query for sequence : {{ data.se }} with
+            conditions: {{ data.es }} has returned the following results:</h2>
         <div style="padding: 20px;">
             <b-table stacked responsive striped dark bordered :items="items"></b-table>
         </div>
