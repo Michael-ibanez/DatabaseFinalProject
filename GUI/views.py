@@ -35,7 +35,7 @@ def dataInputCondition(request):
             condName = request.POST.get('name')
             condDomain = request.POST.get('domain')
             possibleValues = request.POST.get('possValues')
-            if condDomain.lower() == 'domain':
+            if condDomain is None or condDomain == '' or condDomain.lower() == 'domain':
                 return render(request, 'GUI/error.html')
             if condDomain.lower() == 'boolean' and possibleValues.lower() != 'true' and possibleValues.lower() != 'false' and possibleValues != '1' and possibleValues != '0':
                 return render(request, 'GUI/error.html')
@@ -75,8 +75,8 @@ def dataInputMeasurement(request):
             measName = request.POST.get('name')
             measDomain = request.POST.get('domain')
             possibleValues = request.POST.get('possValues')
-            if measDomain.lower() == 'domain':
-                 return render(request, 'GUI/error.html')
+            if measDomain is None or measDomain == '' or measDomain.lower() == 'domain':
+                return render(request, 'GUI/error.html')
             if measDomain.lower() == 'boolean' and possibleValues.lower() != 'true' and possibleValues.lower() != 'false' and possibleValues != '1' and possibleValues != '0':
                 return render(request, 'GUI/error.html')
             try:
@@ -534,7 +534,7 @@ def comparisons(request):
 
 # Form for extra credit query
 # TODO: change this so that it is called for each sequence in the list passed by the user
-    # then return something like {seq: {context}} or however you want to handle it
+# then return something like {seq: {context}} or however you want to handle it
 def comparisonResults(request):
     #   The user should enter a list of sequences and conditions.
     #
