@@ -35,6 +35,20 @@ def dataInputCondition(request):
             condName = request.POST.get('name')
             condDomain = request.POST.get('domain')
             possibleValues = request.POST.get('possValues')
+            if condDomain.lower() == 'domain':
+                return render(request, 'GUI/error.html')
+            if condDomain.lower() == 'boolean' and possibleValues.lower() != 'true' and possibleValues.lower() != 'false' and possibleValues != '1' and possibleValues != '0':
+                return render(request, 'GUI/error.html')
+            try:
+                if condDomain.lower() == 'int' and int(possibleValues):
+                    return render(request, 'GUI/error.html')
+            except Exception:
+                return render(request, 'GUI/error.html')
+            try:
+                if condDomain.lower() == 'float' and float(possibleValues):
+                    return render(request, 'GUI/error.html')
+            except Exception:
+                return render(request, 'GUI/error.html')
             # Check if that condition already exists
             sql_search_query = "SELECT * FROM GUI_Condition WHERE name=%s"
             condQuery = (sqlescape(condName),)
@@ -57,6 +71,20 @@ def dataInputMeasurement(request):
             measName = request.POST.get('name')
             measDomain = request.POST.get('domain')
             possibleValues = request.POST.get('possValues')
+            if measDomain.lower() == 'domain':
+                return render(request, 'GUI/error.html')
+            if measDomain.lower() == 'boolean' and possibleValues.lower() != 'true' and possibleValues.lower() != 'false' and possibleValues != '1' and possibleValues != '0':
+                return render(request, 'GUI/error.html')
+            try:
+                if measDomain.lower() == 'int' and int(possibleValues):
+                    return render(request, 'GUI/error.html')
+            except Exception:
+                return render(request, 'GUI/error.html')
+            try:
+                if measDomain.lower() == 'float' and float(possibleValues):
+                    return render(request, 'GUI/error.html')
+            except Exception:
+                return render(request, 'GUI/error.html')
             # Check if that measurement already exists
             sql_search_query = "SELECT * FROM GUI_Measurement WHERE name=%s"
             measQuery = (sqlescape(measName),)
