@@ -1,14 +1,5 @@
 {% load static %}
 <html lang="en">
-<!--
-<link
-rel="stylesheet"
-href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
-/>
-<link
-rel="stylesheet"
-href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"
-/>-->
 <head>
     <title>Insert Data</title>
     <link
@@ -104,8 +95,10 @@ href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-5 insert-title">
-            Insert condition
+        <div class="col-lg-5">
+            <div class=" insert-title">
+                Insert condition
+            </div>
             <form
                     action="{% url 'GUI:dataInputCondition' %}"
                     method="post"
@@ -160,8 +153,10 @@ href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"
                 </div>
             </form>
         </div>
-        <div class="col-lg-5 insert-title">
-            Insert measurement
+        <div class="col-lg-5">
+            <div class="insert-title">
+                Insert measurement
+            </div>
             <form
                     action="{% url 'GUI:dataInputMeasurement' %}"
                     method="post"
@@ -216,8 +211,10 @@ href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"
                 </div>
             </form>
         </div>
-        <div class="col-lg-5 insert-title">
-            Insert sequence and information
+        <div class="col-lg-5">
+            <div class="insert-title">
+                Insert sequence and information
+            </div>
             <form
                     action="{% url 'GUI:dataInputSequence' %}"
                     method="post"
@@ -271,8 +268,10 @@ href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"
                 </div>
             </form>
         </div>
-        <div class="col-lg-5 insert-title">
+        <div class="col-lg-5 ">
+            <div class="insert-title">
             Insert experiment with condition and results
+            </div>
             <form
                     action="{% url 'GUI:dataInputExperiment' %}"
                     method="post"
