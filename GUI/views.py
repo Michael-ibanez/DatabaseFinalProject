@@ -462,6 +462,8 @@ def extraCred(request):
 
 
 # Form for extra credit query
+# TODO: change this so that it is called for each sequence in the list passed by the user
+    # then return something like {seq: {context}} or however you want to handle it
 def queryExtraCred(request):
     #   The user should enter a list of sequences and conditions.
     #
