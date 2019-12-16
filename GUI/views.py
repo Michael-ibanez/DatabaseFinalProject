@@ -112,7 +112,10 @@ def dataInputExperiment(request):
                 conList = condList.split(',')
                 flag = 1
                 for a in conList:
+                    a = a.strip()
                     aa = a.split(':')
+                    if len(aa) < 2:
+                        return render(request, 'GUI/error.html')
                     sql_search_query = "SELECT * FROM GUI_Condition WHERE name=%s"
                     seqQuery = (sqlescape(aa[0]),)
                     cursor.execute(sql_search_query, seqQuery)
@@ -123,7 +126,10 @@ def dataInputExperiment(request):
                 if flag:
                     meaList = measList.split(',')
                     for b in meaList:
+                        b = b.strip()
                         bb = b.split(':')
+                        if len(bb) < 2:
+                            return render(request, 'GUI/error.html')
                         sql_search_query = "SELECT * FROM GUI_Measurement WHERE name=%s"
                         seqQuery = (sqlescape(bb[0]),)
                         cursor.execute(sql_search_query, seqQuery)
@@ -137,6 +143,8 @@ def dataInputExperiment(request):
                     print("Condition : ", conList)
                     for a in conList:
                         aa = a.split(':')
+                        if len(aa) < 2:
+                            return render(request, 'GUI/error.html')
                         print(aa)
                         query = 'SELECT * FROM GUI_SpecificCondition WHERE name="{}" AND value="{}"'.format(
                             sqlescape(aa[0]), sqlescape(aa[1]))
@@ -151,6 +159,8 @@ def dataInputExperiment(request):
                     print("Measurement : ", meaList)
                     for b in meaList:
                         bb = b.split(':')
+                        if len(bb) < 2:
+                            return render(request, 'GUI/error.html')
                         print(bb)
                         query = 'SELECT * FROM GUI_SpecificMeasurement WHERE name="{}" AND value="{}"'.format(
                             sqlescape(bb[0]), sqlescape(bb[1]))
@@ -203,12 +213,17 @@ def insertCSV(request):
         except Exception:
             return render(request, 'GUI/invalidInsert.html')
         lines = file_data.split("\r\n")
+
         # Loop over the lines and save them in db. If error , store as string and then display
         # First line contains the experiments so read those in first as experiments
         lineOne = lines[0]
+        if len(lineOne) < 1:
+            return render(request, 'GUI/invalidInsert.html')
         if lineOne[0] == ',':
             lineOne = lineOne[1:]
         fields = lineOne.split(",")
+        if len(fields) == 0:
+            return render(request, 'GUI/invalidInsert.html')
         seqCond = {}
         conds = []
         measurements = []
@@ -218,6 +233,8 @@ def insertCSV(request):
             for exp in fields:
                 # insert into db the sequence if it doesnt exist(line[0])
                 line = exp.split("_")
+                if len(line) < 2:
+                    return render(request, 'GUI/invalidInsert.html')
                 seqCond[count] = line[0]
                 conds.append([])
                 measurements.append([])
@@ -258,6 +275,8 @@ def insertCSV(request):
             # Each is a specific measurement
             for line in lines[1:-1]:
                 fields = line.split(",")
+                if len(line) == 0:
+                    return render(request, 'GUI/invalidInsert.html')
                 data_dict = {'measurement': fields[0]}
                 print(data_dict['measurement'])
                 curr = 0
@@ -359,8 +378,9 @@ def queryExperiment(request):
                 se = request.POST.get('seqName')
                 es = request.POST.get('expConditions')
                 measurementList = {}
-                myList = expFound[0][3].split(', ')
+                myList = expFound[0][3].split(',')
                 for a in myList:
+                    a = a.strip()
                     query = 'SELECT * FROM GUI_SpecificMeasurement WHERE id = "{}"'.format(sqlescape(a))
                     cursor.execute(query)
                     measurementFound = cursor.fetchall()
