@@ -40,11 +40,157 @@
             Gene Expression Management System Presentation
         </h1>
         <p style="text-align: center;margin-left: 50px;margin-top:10px;margin-right: 50px;font-size:30px;">
-            Below you can find a powerpoint explaining our tool and how it works.
+            Below you can find a powerpoint explaining our tool and how it works, as well as a simple README to use our
+            tool.
         </p>
     </div>
     <div>
-        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSS3Ea33PFBzrj3ye28tm_G1ouS8NFtsdgX2ZC8leLpW893xCkugK_gXp-LgdF00Z8Xj3H2775WljFt/embed?start=false&loop=false&delayms=5000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="display: block; margin: 0 auto; padding-bottom: 20px;"></iframe>
+        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSS3Ea33PFBzrj3ye28tm_G1ouS8NFtsdgX2ZC8leLpW893xCkugK_gXp-LgdF00Z8Xj3H2775WljFt/embed?start=false&loop=false&delayms=5000"
+                frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true"
+                webkitallowfullscreen="true" style="display: block; margin: 0 auto; padding-bottom: 20px;"></iframe>
+    </div>
+    <div class="markdown" >
+        <h1>Database Final Project README</h1>
+        <p>This project implements the Gene Expression Data Management assignment given by Dr. Lin.</p>
+        <p>CSI 3335 Fall 19 Group Project – Gene Expression Management System - GEMS.
+            GEMS is a tool to keep track of a study of gene expression at the messenger RNA (mRNA) level in different
+            yeast strains.</p>
+        <ul>
+            <li>Data input (via GUI)
+                <ul>
+                    <li>New experimental conditions and new measurement type.</li>
+                    <li>Base information about the sequence.</li>
+                    <li>Experiment condition/results for each sequence.</li>
+                    <li>Notice there may be many experiments with the same sequence.</li>
+                    <li>Each case need to specify its own condition and its own results.</li>
+                </ul>
+            </li>
+            <li>Data input (via csv file)
+                <ul>
+                    <li>The user can supply a name of csv file. It will contains a matrix. Each row (except the first)
+                        is a sequence, with the first column its name. Each column (except the first) is a measurement
+                        type. The first row (starting from the second column) contain the name for the type. Each cell
+                        of the subsequent row contains the value of the measurement for that sequence. However, if there
+                        are multiple conditions for a sequence you should ask the user about which condition apply to
+                        that sequence.
+                    </li>
+                </ul>
+            </li>
+            <li>Query and analysis
+                <ul>
+                    <li>Experiment info : the user entered in formation of an experiment and the system should display
+                        all the measurements associated with it.
+                    </li>
+                    <li>Side-by-side comparisons : The user should select two experiments, the system should display the
+                        measurements that are common to both experiments side-by-side
+                    </li>
+                </ul>
+            </li>
+            <li>Views across multiple experiments
+                <ul>
+                    <li>The user should enter a list of sequences and conditions.Then the system should retrieve all
+                        experiments that has the sequence and (at least) one of the conditions and list them
+                    </li>
+                    <li>The user can also enter a list of measurements and the system will return the value of the
+                        measurements for all the experiments above as a table
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <h2>Getting started</h2>
+        <p>Make sure you have a MySQL server running on localhost on port <code>3306</code> with user <code>root</code>.
+            The password for <code>root</code> can be changed in <code>geneExpressionProject/settings.py</code>. Make
+            sure this server has a pre-made, clean schema named <code>databaseFinalProject</code>.
+            - Install Python 3: <code>https://www.python.org/downloads/</code>
+            - Install git : <code>https://git-scm.com/download</code>
+            - Clone this repo : <code>git clone https://github.com/Michael-ibanez/DatabaseFinalProject.git</code>
+            - Install packages with pip : <code>pip install -r requirements.txt</code>
+            - Migrate the database: <code>python3 manage.py migrate</code>
+            - Start the local server: <code>python3 manage.py runserver</code>
+            - Open up <a href="http://127.0.0.1:8000/">localhost:8000</a></p>
+        <h1>User Manual to GEMS</h1>
+        <p>Using GEMS is as simple as it looks. At its landing page, there is a video explaining the basics of
+            Transcription and mRNA processing (Thanks to Khan Academy for the informational video), along with a short
+            description of our tool.</p>
+        <p>Following this, the user can click on any of the buttons at the bottom of the page or on a header in the
+            navbar at the top of the page to bring them to <code>Insert Data</code>, <code>Queries</code>, <code>Experiment
+                Comparisons</code>, and <code>Presentation</code>.</p>
+        <p>Below are short subsections on each page.</p>
+        <h2>Insert Data</h2>
+        <p>At the <code>Insert Data</code> page, you can insert data in a few ways.</p>
+        <ol>
+            <li>You can input a CSV. This CSV must be formatted in the following format:
+                <ul>
+                    <li>The first line must be the sequences and their conditions, all separated within each
+                        sequence/condition pair with <code>_</code>, and each sequence/condition pair is separated with
+                        <code>,</code>.
+                    </li>
+                    <li>The second lines and all following lines must have the first value as the measurement name, and
+                        all following values are measurement values for their consecutive sequence/condition pairs,
+                        separated by <code>,</code>.
+                    </li>
+                </ul>
+            </li>
+            <li>You can input conditions manually...
+                <ul>
+                    <li>The first value is the name of the sequence</li>
+                    <li>The second value is the domain of the sequence (it must be an integer, a float, a string, or a
+                        boolean)
+                    </li>
+                    <li>The final value is the actual value of the aforementioned domain</li>
+                </ul>
+            </li>
+            <li>You can input measurements manually...
+                <ul>
+                    <li>The first value is the name of the measurement</li>
+                    <li>The second value is the domain of the measurement (it must be an integer, a float, a string, or
+                        a boolean)
+                    </li>
+                    <li>The final value is the actual value of the aforementioned domain</li>
+                </ul>
+            </li>
+            <li>You can input sequence and information about that sequence...
+                <ul>
+                    <li>The first value is the name of the sequence</li>
+                    <li>The second value is any optional information about the sequence</li>
+                    <li>The final value is an optional file name to a file containing the sequence</li>
+                </ul>
+            </li>
+            <li>You can insert an experiment with condition and results
+                <ul>
+                    <li>The first value is the sequence name</li>
+                    <li>The second value are the conditions, separated by <code>,</code>, in the format <code>condition:value</code>
+                    </li>
+                    <li>The final value are the measurements, separated by <code>,</code>, in the format <code>measurement:value</code>
+                    </li>
+                </ul>
+            </li>
+        </ol>
+        <h2>Queries</h2>
+        <p>At the <code>Queries</code> page, you can query for information within the database.</p>
+        <ol>
+            <li>You can query for individual sequence information
+                <ul>
+                    <li>The first value is the sequence name</li>
+                    <li>The second value is the sequence conditions in the format <code>condition:value</code>, with
+                        multiple conditions separated by <code>,</code>.
+                    </li>
+                </ul>
+            </li>
+            <li>You can choose between sequences to perform a side by side comparison
+                <ul>
+                    <li>This provides a simple drop-down menu for selecting between different experiments to compare
+                    </li>
+                </ul>
+            </li>
+        </ol>
+        <h2>Experiment Comparisons</h2>
+        <p>Here, one can choose between experiments to compare. You can hold <code>Ctrl</code> and click on multiple
+            sequences, conditions, and measurements, and then click <code>submit</code>.</p>
+        <p>This will present all chosen sequences with any of the conditions or measurements.</p>
+        <h2>Presentation</h2>
+        <p>This is a simple powerpoint of our slides as well as the README. Feel free to look through our presentation
+            and README!</p>
     </div>
     <div class="row">
         <div class="col-lg-4 text-center" style="padding-bottom: 10px;">

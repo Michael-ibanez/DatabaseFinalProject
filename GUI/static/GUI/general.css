@@ -55,3 +55,11 @@ input[type=text]:focus {
 table.b-table[aria-busy='true'] {
     opacity: 0.6;
 }
+
+.markdown{
+    background: rgba(255, 255, 255, 0.5); margin: 50px; padding: 10px; border: 2px solid black;
+}
+
+.markdown:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
